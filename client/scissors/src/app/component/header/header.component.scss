@@ -1,0 +1,176 @@
+/*--------------------------------------------------------------
+  # Header
+  --------------------------------------------------------------*/
+.logo {
+  line-height: 1;
+  cursor: pointer;
+
+  @media (min-width: 1200px) {
+    width: 280px;
+  }
+
+  img {
+    max-height: 26px;
+    margin-right: 6px;
+  }
+
+  span {
+    font-size: 26px;
+    font-weight: 700;
+    color: #012970;
+    font-family: "Nunito", sans-serif;
+  }
+}
+
+.header {
+  transition: all 0.5s;
+  z-index: 997;
+  height: 60px;
+  box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+  background-color: #ffffff;
+  padding-left: 20px;
+}
+
+/*--------------------------------------------------------------
+    # Header Nav
+    --------------------------------------------------------------*/
+.header-nav {
+  ul {
+    list-style: none;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-icon {
+    font-size: 22px;
+    color: #012970;
+    margin-right: 25px;
+    position: relative;
+  }
+
+  .nav-profile {
+    color: #012970;
+
+    img {
+      height: 36px;
+      width: 36px;
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  .badge-number {
+    position: absolute;
+    inset: -2px -5px auto auto;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+
+  .notifications {
+    inset: 8px -15px auto auto !important;
+  }
+
+  .notifications .notification-item {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    transition: 0.3s;
+
+    i {
+      margin: 0 20px 0 10px;
+      font-size: 24px;
+    }
+
+    h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 13px;
+      margin-bottom: 3px;
+      color: #919191;
+    }
+
+    &:hover {
+      background-color: #f6f9ff;
+    }
+  }
+
+  .messages {
+    inset: 8px -15px auto auto !important;
+  }
+
+  .messages .message-item {
+    padding: 0 10px;
+    transition: 0.3s;
+
+    a {
+      display: flex;
+    }
+
+    img {
+      margin: 0 10px 0 10px;
+      max-height: 40px;
+      max-width: 40px;
+    }
+
+    h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #444444;
+    }
+
+    p {
+      font-size: 13px;
+      margin-bottom: 3px;
+      color: #919191;
+    }
+
+    &:hover {
+      background-color: #f6f9ff;
+    }
+  }
+
+  .profile {
+    min-width: 240px;
+    padding-bottom: 0;
+    top: 8px !important;
+
+    .dropdown-header h6 {
+      font-size: 18px;
+      margin-bottom: 0;
+      font-weight: 600;
+      color: #444444;
+    }
+
+    .dropdown-header span {
+      font-size: 14px;
+    }
+
+    .dropdown-item {
+      font-size: 14px;
+      padding: 5px 15px;
+      transition: 0.3s;
+
+      i {
+        margin-right: 10px;
+        font-size: 18px;
+        line-height: 0;
+      }
+
+      &:hover {
+        background-color: #f6f9ff;
+      }
+    }
+  }
+}

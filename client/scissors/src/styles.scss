@@ -1,0 +1,167 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+/* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa !important;
+  color: rgb(58, 27, 185);
+}
+.main {
+  position: relative;
+  width: 100%;
+}
+.navbar-side {
+  position: relative;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  z-index: 999;
+  background-color: #343a40;
+  -webkit-transition: 0.2s all ease-in-out;
+  transition: 0.2s all ease-in-out;
+}
+
+.content {
+  position: absolute;
+  width: calc(100% - 250px);
+  right: 0;
+  -webkit-transition: 0.2s all ease-in-out;
+  transition: 0.2s all ease-in-out;
+}
+
+.navbar-side #navBtn {
+  position: relative;
+  left: 100%;
+  top: 50px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  span {
+    font-size: 20px;
+    position: absolute;
+    background-color: #343a40;
+    padding: 0.5em;
+    color: white;
+  }
+}
+.main.animate {
+  .navbar-side {
+    width: 60px;
+    -webkit-transition: 0.2s all ease-in-out;
+    transition: 0.2s all ease-in-out;
+    .link-text {
+      display: none;
+    }
+    .content {
+      width: calc(100% - 60px);
+    }
+  }
+}
+
+.che {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 5px;
+  color: white;
+  background: linear-gradient(310deg, #7928ca, #ff0080);
+  text-align: center;
+}
+form {
+  .form-floating {
+    position: relative;
+    label {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      padding: 0.05rem 0.75rem;
+      pointer-events: none;
+      color: #6c757d;
+      opacity: 1;
+      transition: all 0.2s;
+      transform-origin: top left;
+    }
+    textarea {
+      border: 1px solid rgb(31, 2, 144);
+      scrollbar-width: thin;
+      &::-webkit-scrollbar {
+        width: 5px;
+        &-thumb:hover {
+          background-color: rgb(31, 2, 144);
+          border-radius: 5px;
+        }
+      }
+      &:focus {
+        border: 2px solid rgb(31, 2, 144);
+        box-shadow: none;
+      }
+    }
+    input {
+      &[type="text"],
+      &[type="email"],
+      &[type="password"] {
+        border: 1px solid rgb(31, 2, 144);
+        background: none;
+        font-weight: bold;
+      }
+      &:focus {
+        border: 2px solid rgb(58, 27, 185);
+        box-shadow: none;
+      }
+      &:focus ~ label,
+      &:not(:placeholder-shown) ~ label {
+        transform: translateY(-1rem) scale(0.7);
+      }
+    }
+  }
+  button {
+    border: 1px solid rgb(31, 2, 144) !important;
+    color: rgb(31, 2, 144) !important;
+    letter-spacing: 2px;
+    font-weight: bold;
+    height: 3rem;
+    &:hover {
+      background: rgb(31, 2, 144) !important;
+      color: #f8f9fa !important;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .main .navbar-side {
+    width: 40px;
+    -webkit-transition: 0.2s all ease-in-out;
+    transition: 0.2s all ease-in-out;
+  }
+
+  .main .content {
+    width: calc(100% - 40px);
+  }
+  .main.animate .navbar-side {
+    width: 150px;
+    -webkit-transition: 0.2s all ease-in-out;
+    transition: 0.2s all ease-in-out;
+  }
+  .main.animate .navbar-side .link-text {
+    display: inline-block;
+  }
+
+  .main.animate .content {
+    width: calc(100% - 150px);
+  }
+}
+.card {
+  border-radius: 1rem;
+}
+.card-header {
+  border-top-left-radius: 1rem !important;
+  border-top-right-radius: 1rem !important;
+}

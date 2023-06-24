@@ -5,7 +5,7 @@ export = {
       description: "Local server", // name
     },
     {
-      url: "https://scissors.com", // url
+      url: "https://scissors-backend.onrender.com/", // url
       description: "Hosted server", // name
     },
   ],

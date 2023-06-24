@@ -1,0 +1,38 @@
+ul {
+  position: absolute;
+  list-style: none;
+  width: 100%;
+  padding-left: 20px;
+  li a {
+    padding: 10px 0;
+    display: inline-block;
+    text-decoration: none;
+    color: #ccc;
+    font-size: 1em;
+    -webkit-transition: 0.2s all ease-in-out;
+    transition: 0.2s all ease-in-out;
+    white-space: nowrap;
+    &:hover {
+      border-left: 4px solid rgb(85, 226, 85);
+      background-color: red;
+      padding-left: 10px;
+      width: 100%;
+    }
+    .icon {
+      padding-right: 25px;
+    }
+  }
+  div {
+    padding-left: 20px;
+    display: inline-block;
+    width: auto;
+  }
+}
+@media (max-width: 991px) {
+  ul {
+    padding-left: 10px;
+    div {
+      padding-left: 10px;
+    }
+  }
+}
