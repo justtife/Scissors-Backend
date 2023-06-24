@@ -75,7 +75,7 @@ app.use(
     },
     //Store sessions
     store: MongoStore.create({
-      mongoUrl: config.DB_URI,
+      mongoUrl: process.env.DB_URI,
       autoRemove: "native",
       collectionName: "sessions",
       ttl: 60 * 60 * 24 * 1, //One day
