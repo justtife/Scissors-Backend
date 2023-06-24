@@ -14,7 +14,9 @@ const start = async () => {
     //Start Server
     app
       .listen(config.PORT, () => {
-        logger.info(`Server is listening on port ${config.PORT}`);
+        logger.info(
+          `Server is listening on port ${config.PORT} and running in ${process.env.APP_ENV} mode`
+        );
       })
       //Server Error
       .on("error", (error: Error) => {

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build",
-    "build": "cross-env APP_ENV=production tsc",
+    "build": "npm install && tsc",
+    "start": "cross-env APP_ENV=production node dist/server.js",
     "test": "cross-env APP_ENV=test jest --config jest.config.ts --watchAll --runInBand --detectOpenHandles --testMatch='**/*.spec.ts'",
     "dev": "cross-env APP_ENV=development nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts"
   },
