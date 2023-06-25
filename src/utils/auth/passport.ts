@@ -52,6 +52,7 @@ function PassportLoad(passport: PassportStatic) {
             newUser.email = email;
             newUser.password = password;
             newUser.sex = req.body.sex;
+            newUser.nationality = req.body.nationality;
             newUser.userID = uuidv4().slice(0, 7);
             let name = req.body.firstname + " " + req.body.lastname;
             let image = generateDefaultProfilePic(name);
