@@ -99,15 +99,21 @@ app.use(log);
 
 import CustomError from "./utils/errors";
 //Server Test
-import location from "./utils/helpers/location";
 import requestIp from "request-ip";
 app.use(requestIp.mw());
 app.get("/", async (req, res) => {
+  const protocol = req.protocol; // HTTP or HTTPS
+  const hostname = req.hostname; // localhost or the domain name
+  const port = req.get("host"); // Port number
+
+  // Construct the complete URL
+  const apiUrl = `${protocol}://${hostname}:${port}`;
+
+  res.send(apiUrl);
   const output: SuccessResponse = {
     message: process.env.APP_ENV as string,
     data: {
-      user: req.user,
-      test: await location("197.243.14.45"),
+      start: "Hello World",
     },
   };
   res.status(200).json(output);
@@ -131,7 +137,6 @@ import swaggerUI from "swagger-ui-express";
 //Authentication
 import { token as createToken } from "./utils/auth/createToken";
 import _ from "lodash";
-import { UserDocument } from "./types";
 app.get("/doc", (req, res) => {
   const test = UserValidation.logUserInSchema1;
   let ans = joiToJSON(test.extract("body"));

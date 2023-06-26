@@ -1,15 +1,19 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import UserValidation from "../utils/validations/user.validation";
 import Auth from "../utils/auth/authenticateUser";
 import _ from "lodash";
 export const userRouter = Router();
 import { UserController } from "../controllers/user.controller";
-import ImageUploader from "../utils/image/multer";
-import passport = require("passport");
+import { ImageUploader } from "../utils/image/multer";
+const upload = new ImageUploader();
+userRouter.post(
+  "/upload",
+  upload.upload.single("profilePic"),
+  UserController.uploadImage
+);
 userRouter.post(
   "/signup",
   UserValidation.createUser,
-  ImageUploader.upload.single("profilePic"),
   UserController.createUser
 );
 userRouter.post("/login", UserValidation.loginUser, UserController.loginUser);
@@ -55,4 +59,3 @@ userRouter.patch(
   UserValidation.changePassword,
   UserController.changePassword
 );
-

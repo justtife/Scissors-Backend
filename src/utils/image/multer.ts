@@ -1,7 +1,7 @@
 import multer, { StorageEngine, Multer, FileFilterCallback } from "multer";
 import CustomError from "../errors";
 import { Request } from "express";
-class ImageUploader {
+export class ImageUploader {
   private storage: StorageEngine;
   private fileFilter: (
     req: Request,
@@ -40,4 +40,4 @@ class ImageUploader {
   }
 }
 
-export default new ImageUploader();
+// export default new ImageUploader();

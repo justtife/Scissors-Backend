@@ -62,15 +62,6 @@ function PassportLoad(passport: PassportStatic) {
               "scissors_user"
             );
             newUser.defaultPic = saveImage.secure_url;
-            let result;
-            if (req.file) {
-              result = await saveOnCloudinary(
-                req.file.path,
-                `user_${email}`,
-                "scissors_user"
-              );
-              newUser.profilePic = result.public_id + " " + result.url;
-            }
             newUser
               .save()
               .then((savedUser: UserDocument) => {

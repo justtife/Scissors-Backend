@@ -3,8 +3,8 @@ import { token as createToken } from "../utils/auth/createToken";
 import { mainConfig } from "../config/config";
 import Auth from "../utils/auth/authenticateUser";
 import { deleteImage } from "../utils/helpers/cloudinary";
+import { v4 as uuidv4 } from "uuid";
 const config = mainConfig[process.env.APP_ENV as string];
-import User from "../models/user.model";
 import {
   StatusCode,
   UserDocument,
@@ -18,7 +18,19 @@ import EmailSender from "../utils/mails/mailSetUp";
 import saveOnCloudinary from "../utils/helpers/cloudinary";
 const _ = require("lodash");
 export class UserController {
-  //Create Article
+  static async uploadImage(req: Request, res: Response) {
+    const file = req!.file!.path;
+    const result = await saveOnCloudinary(
+      file,
+      `profilePic_${uuidv4().slice(0, 10)}`,
+      "scissors_user"
+    );
+    let output: SuccessResponse = {
+      message: "Image uploaded successfully",
+      data: result.public_id + " " + result.url,
+    };
+    res.status(200).json(output);
+  }
   static async createUser(req: Request, res: Response, next: NextFunction) {
     passport.authenticate(
       "signup",
