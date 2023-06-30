@@ -1,7 +1,5 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model} from "mongoose";
 import { UrlDocument } from "../types";
-import { v4 as uuidv4 } from "uuid";
-import Stat from "./stat.model";
 
 const UrlSchema = new Schema<UrlDocument>(
   {
@@ -9,7 +7,6 @@ const UrlSchema = new Schema<UrlDocument>(
     short_url: {
       type: String,
       required: true,
-      default: uuidv4().slice(0, 6),
     },
     tag: Array,
     qrcode: String,

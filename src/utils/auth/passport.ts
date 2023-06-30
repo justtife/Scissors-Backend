@@ -54,6 +54,7 @@ function PassportLoad(passport: PassportStatic) {
             newUser.sex = req.body.sex;
             newUser.nationality = req.body.nationality;
             newUser.userID = uuidv4().slice(0, 7);
+            newUser.profilePic = req.body.profilePic;
             let name = req.body.firstname + " " + req.body.lastname;
             let image = generateDefaultProfilePic(name);
             const saveImage = await saveOnCloudinary(

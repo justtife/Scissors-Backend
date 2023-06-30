@@ -59,7 +59,7 @@ class ValidateUsers {
         .error(
           new BadRequestError("Value for sex can only be male/female/others")
         ),
-      profilePic: Joi.string(),
+      profilePic: Joi.string().allow("").optional(),
       nationality: Joi.string()
         .min(3)
         .max(30)
@@ -100,15 +100,19 @@ class ValidateUsers {
         Joi.string().email({ minDomainSegments: 2 }),
       ])
         .default("johndoe@email.com")
-        .required()
-        .error(new BadRequestError("Enter a valid username or email")),
+        .required(),
       password: Joi.string()
         .min(6)
         .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
         .default("Passcode")
-        .error(new BadRequestError("Enter a valid Password")),
+        .messages({
+          "any.required": "Password is required",
+          "string.min": "Password field must be more than 6 characters",
+          "string.empty": `Password field cannot be empty, please enter password`,
+          "string.pattern.base": ` Password can only contain alphanumeric including !,@,#,$,%,&,*`,
+        }),
     }),
     query: Joi.object({}),
     params: Joi.object({}),
@@ -145,6 +149,7 @@ class ValidateUsers {
             "Firstname field cannot be empty, please enter firstname",
         })
         .default("Jane"),
+      profilePic: Joi.string(),
       lastname: Joi.string()
         .min(3)
         .max(50)

@@ -134,7 +134,6 @@ export class UserController {
   }
   static async getSingleUser(req: Request, res: Response) {
     const user = await UserService.getUserByUserID(req.params.userID);
-    console.log(user!.userID);
     await Auth.checkPermission(req.user as UserDocument, user!.userID);
     const output: SuccessResponse = {
       message: `User Profile`,
@@ -144,7 +143,6 @@ export class UserController {
               "password",
               "accountStatus.isActive",
               "googleID",
-              "nationality",
               "passwordResetToken",
               "passwordResetExpiry",
               "updatedAt",
@@ -162,14 +160,8 @@ export class UserController {
     user!.name.user = req.body.username;
     user!.sex = req.body.sex;
     user!.nationality = req.body.nationality;
-    let result;
-    if (req.file) {
-      result = await saveOnCloudinary(
-        req.file.path,
-        `user_${user!.email}`,
-        "scissors_user"
-      );
-      user!.profilePic = result.public_id + " " + result.url;
+    if (req.body.profilePic) {
+      user!.profilePic = req.body.profilePic;
     }
     await user?.save();
     const output: SuccessResponse = {

@@ -21,6 +21,32 @@ class Auth {
       return next();
     })(req, res, next);
   }
+  static async authenticateJwt(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      return new Promise((resolve, reject) => {
+        passport.authenticate(
+          "jwt",
+          function (err: Error, user: any, info: any) {
+            if (err) {
+              reject(err); // Reject the promise with the error
+            }
+            if (info) {
+              resolve(false); // User is not logged in
+            }
+            req.user = user;
+            resolve(true); // User is logged in
+          }
+        )(req, res, next);
+      });
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
   static async checkPermission(
     requestUser: UserDocument,
     resourceUserId: string

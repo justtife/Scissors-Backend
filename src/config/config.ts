@@ -18,6 +18,7 @@ const mainConfig: { [key: string]: any } = {
     CLIENT_ID: process.env.CLIENT_ID as string,
     CLIENT_SECRET: process.env.CLIENT_SECRET as string,
     CALLBACK_URL: process.env.CALLBACK_URL as string,
+    FRONTEND_LINK: process.env.FRONTEND_LINK as string,
   },
   production: {
     PORT: (process.env.APP_PORT || 7789) as number,
@@ -38,6 +39,7 @@ const mainConfig: { [key: string]: any } = {
     CLIENT_ID: process.env.CLIENT_ID as string,
     CLIENT_SECRET: process.env.CLIENT_SECRET as string,
     CALLBACK_URL: process.env.P_CALLBACK_URL as string,
+    FRONTEND_LINK: process.env.FRONTEND_LINK as string,
   },
   test: {},
 };

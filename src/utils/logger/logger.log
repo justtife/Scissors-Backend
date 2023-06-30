@@ -1,0 +1,175 @@
+[error] 23-06-26 18:35:22 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-06-26 18:35:22 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-06-26 18:35:44 Scissors-Logger: {"message":"[object Object], Error: Unsupported image format","metadata":{}}
+[error] 23-06-26 18:50:53 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-26 18:53:30 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-26 18:55:47 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-26 18:59:25 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-26 20:32:28 Scissors-Logger: {"message":"[object Object], Error: User not found","metadata":{}}
+[error] 23-06-26 20:32:32 Scissors-Logger: {"message":"[object Object], Error: User not found","metadata":{}}
+[error] 23-06-26 20:34:53 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-26 20:44:24 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-26 20:44:24 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-26 20:44:29 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-26 22:22:19 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'path')","metadata":{}}
+[error] 23-06-26 23:17:08 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'path')","metadata":{}}
+[error] 23-06-26 23:20:47 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-06-26 23:20:47 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-06-26 23:22:00 Scissors-Logger: {"message":"[object Object], ValidationError: Lastname field must be more than 3 letters","metadata":{}}
+[error] 23-06-26 23:24:36 Scissors-Logger: {"message":"[object Object], ValidationError: Firstname is required","metadata":{}}
+[error] 23-06-26 23:37:35 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'path')","metadata":{}}
+[error] 23-06-26 23:38:06 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'path')","metadata":{}}
+[error] 23-06-26 23:41:26 Scissors-Logger: {"message":"[object Object], ValidationError: Firstname is required","metadata":{}}
+[error] 23-06-27 11:53:22 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 11:58:49 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:00:39 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-27 12:21:08 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-27 12:28:10 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:42:14 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:43:46 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:45:08 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:45:40 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:45:55 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:46:02 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:47:12 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:47:26 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:47:46 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:48:06 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-27 12:48:16 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-27 12:48:55 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-06-27 12:57:11 Scissors-Logger: {"message":"[object Object], Error: Enter a valid Password","metadata":{}}
+[error] 23-06-27 12:58:11 Scissors-Logger: {"message":"[object Object], Error: Enter a valid Password","metadata":{}}
+[error] 23-06-27 13:00:45 Scissors-Logger: {"message":"[object Object], Error: Enter a valid Password","metadata":{}}
+[error] 23-06-27 13:10:55 Scissors-Logger: {"message":"[object Object], ValidationError: Firstname is required","metadata":{}}
+[error] 23-06-27 16:37:22 Scissors-Logger: {"message":"[object Object], ValidationError: Description field must be more than 3 letters","metadata":{}}
+[error] 23-06-27 16:44:41 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'userID')","metadata":{}}
+[error] 23-06-27 16:46:24 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'userID')","metadata":{}}
+[error] 23-06-27 17:25:40 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'logIn')","metadata":{}}
+[error] 23-06-27 17:29:32 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of null (reading 'logIn')","metadata":{}}
+[error] 23-06-27 17:33:18 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'logIn')","metadata":{}}
+[error] 23-06-27 17:48:04 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-27 18:16:38 Scissors-Logger: {"message":"[object Object], ValidationError: URL should start with 'http://' or 'https://'","metadata":{}}
+[error] 23-06-27 18:17:47 Scissors-Logger: {"message":"[object Object], ValidationError: Title field must be more than 3 letters","metadata":{}}
+[error] 23-06-27 18:23:15 Scissors-Logger: {"message":"[object Object], ValidationError: Title field must be more than 3 letters","metadata":{}}
+[error] 23-06-27 19:38:46 Scissors-Logger: {"message":"[object Object], ValidationError: User ID must be 7 letters","metadata":{}}
+[error] 23-06-27 19:39:34 Scissors-Logger: {"message":"[object Object], ValidationError: User ID must be 7 letters","metadata":{}}
+[error] 23-06-27 20:01:51 Scissors-Logger: {"message":"[object Object], Error: Enter a valid Password","metadata":{}}
+[error] 23-06-27 20:04:27 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-27 20:12:43 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-27 20:14:16 Scissors-Logger: {"message":"[object Object], ValidationError: Custom name should have minimum length of 3","metadata":{}}
+[error] 23-06-27 20:14:33 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-29 13:37:52 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 13:39:38 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 13:48:11 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 13:50:30 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 13:52:37 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 14:13:36 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:15:02 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:16:29 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:19:49 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:20:27 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:22:45 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:24:25 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:26:07 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:29:54 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 14:33:05 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'accountStatus')","metadata":{}}
+[error] 23-06-29 14:42:49 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'accountStatus')","metadata":{}}
+[error] 23-06-29 14:47:43 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'accountStatus')","metadata":{}}
+[error] 23-06-29 14:50:16 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'accountStatus')","metadata":{}}
+[error] 23-06-29 14:54:20 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:04:50 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:13:10 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:14:50 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:15:19 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:15:53 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:19:06 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:19:21 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:19:40 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:20:49 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:20:52 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:22:39 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:23:05 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:24:10 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:24:37 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:25:05 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:26:13 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:29:46 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:35:29 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:36:14 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:39:08 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-29 15:53:29 Scissors-Logger: {"message":"[object Object], Error: Enter a valid Password","metadata":{}}
+[error] 23-06-29 15:54:57 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.password\" length must be at least 6 characters long","metadata":{}}
+[error] 23-06-29 15:56:20 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}
+[error] 23-06-29 15:56:29 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}
+[error] 23-06-29 15:57:03 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}
+[error] 23-06-29 15:58:35 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}
+[error] 23-06-29 16:46:26 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'path')","metadata":{}}
+[error] 23-06-29 17:06:10 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'path')","metadata":{}}
+[error] 23-06-29 17:08:36 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading 'path')","metadata":{}}
+[error] 23-06-29 17:18:00 Scissors-Logger: {"message":"[object Object], ValidationError: Enter a valid email","metadata":{}}
+[error] 23-06-29 17:18:19 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-29 17:19:44 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed","metadata":{}}
+[error] 23-06-29 17:20:50 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-29 17:22:13 Scissors-Logger: {"message":"[object Object], ValidationError: Enter a valid email","metadata":{}}
+[error] 23-06-29 17:22:24 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-29 17:23:53 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" must be a string","metadata":{}}
+[error] 23-06-29 17:25:04 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.profilePic\" is not allowed to be empty","metadata":{}}
+[error] 23-06-29 17:45:49 Scissors-Logger: {"message":"[object Object], ValidationError: Custom name should have minimum length of 3","metadata":{}}
+[error] 23-06-29 18:29:10 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-29 18:33:56 Scissors-Logger: {"message":"[object Object], ValidationError: Custom name field cannot be empty, please enter a valid custom name","metadata":{}}
+[error] 23-06-29 18:34:44 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.short_url\" must be a string","metadata":{}}
+[error] 23-06-29 18:36:17 Scissors-Logger: {"message":"[object Object], ValidationError: \"body.short_url\" must be a string","metadata":{}}
+[error] 23-06-29 18:41:30 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-29 18:41:38 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-29 18:41:48 Scissors-Logger: {"message":"[object Object], ValidationError: Custom name field cannot be empty, please enter a valid custom name","metadata":{}}
+[error] 23-06-29 20:45:48 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 20:45:50 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 20:45:53 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 20:52:21 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-29 21:21:48 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 21:22:01 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 22:13:42 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-29 22:14:23 Scissors-Logger: {"message":"[object Object], ValidationError: Custom name field cannot be empty, please enter a valid custom name","metadata":{}}
+[error] 23-06-29 22:14:52 Scissors-Logger: {"message":"[object Object], ValidationError: Custom name field cannot be empty, please enter a valid custom name","metadata":{}}
+[error] 23-06-29 22:16:14 Scissors-Logger: {"message":"[object Object], ValidationError: Custom name field cannot be empty, please enter a valid custom name","metadata":{}}
+[error] 23-06-29 23:19:30 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-06-29 23:28:20 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:28:52 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:29:48 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:30:29 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:31:16 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:32:38 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:34:09 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:34:44 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:35:04 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:35:43 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-29 23:36:25 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-30 01:24:27 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-30 01:24:38 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-30 01:30:06 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 01:34:29 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-30 01:35:12 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-30 01:52:15 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-30 01:55:20 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-06-30 10:28:21 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:28:21 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:30:57 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:32:12 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:35:00 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:35:46 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:39:36 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:40:02 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:40:46 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:41:19 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:41:46 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:41:46 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:43:52 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:43:52 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:49:45 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:50:13 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:50:13 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:52:10 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:52:10 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:52:37 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-06-30 10:53:10 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-06-30 10:53:10 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}

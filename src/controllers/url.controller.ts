@@ -1,79 +1,92 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import CustomError from "../utils/errors";
 import { mainConfig } from "../config/config";
 const config = mainConfig[process.env.APP_ENV as string];
 import {
   StatusCode,
   UrlDocument,
-  UserDocument,
   SuccessResponse,
-  ErrorResponse,
-  StatDocument,
+  UserDocument,
 } from "../types";
+import Auth from "../utils/auth/authenticateUser";
 import { validateURL } from "../utils/helpers/validateURL";
 import URLService from "../services/url.service";
 import generateQRCode from "../utils/helpers/createQrCode";
 import { v4 as uuidv4 } from "uuid";
-import Auth from "../utils/auth/authenticateUser";
 import location from "../utils/helpers/location";
+import UserService from "../services/user.service";
 const _ = require("lodash");
 export default class UrlController {
-  static async createShortLink(req: Request, res: Response) {
+  static async createShortLink(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     const { original_url, tag, description, name, short_url } = req.body;
-    //@ts-ignore
-    let shortenTrials = req.session.shortenTrials || 0;
-    const MAX_TRIALS = 3;
     await validateURL(original_url);
     let output: SuccessResponse;
     let data;
-    const urlExist = await URLService.getUserUrl(short_url);
+    const urlExist = await URLService.getUrlByShort(short_url);
     if (urlExist) {
       throw new CustomError.BadRequestError("Url Custom name already exists");
     }
-    if (req.isAuthenticated()) {
-      let qrcode, short;
-      if (short_url) {
-        short = short_url;
+    async function checkLogIn() {
+      try {
+        const isAuthenticated = await Auth.authenticateJwt(req, res, next);
+        return isAuthenticated;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    }
+    checkLogIn().then(async (response) => {
+      if (response) {
+        let qrcode, short;
+        if (short_url) {
+          short = short_url;
+        } else {
+          short = uuidv4().slice(0, 6);
+        }
+        if (req.body.makeQR === true) {
+          qrcode = await generateQRCode(
+            `${config.FRONTEND_LINK}/${short}`,
+            short
+          );
+        }
+        let urlPayload = {
+          original_url,
+          tag,
+          description,
+          name,
+          short_url: short,
+          qrcode,
+          //@ts-ignore
+          user: req.user!.userID,
+        };
+        data = await URLService.createShortURL(urlPayload as UrlDocument);
+        output = {
+          message: "Short url created successfully",
+          data:
+            data !== null
+              ? _.omit(Object.values(data)[1], ["user", "updatedAt", "__v"])
+              : undefined,
+        };
+        return res.status(StatusCode.OK).json(output);
       } else {
-        short = uuidv4().slice(0, 6);
+        let urlPayload;
+        if (!req.body.short_url) {
+          urlPayload = { ...req.body, short_url: uuidv4().slice(0, 6) };
+        } else {
+          urlPayload = { ...req.body };
+        }
+        data = (await URLService.createShortURL(urlPayload)) as UrlDocument;
+        output = {
+          message: "Short url created successfully",
+          data: { short_url: data.short_url },
+        };
+        res.status(StatusCode.OK).json(output);
       }
-      if (req.body.makeQR === true) {
-        qrcode = await generateQRCode(`${config.APP_LINK}/${short}`, short);
-      }
-      let urlPayload = {
-        original_url,
-        tag,
-        description,
-        name,
-        short_url: short,
-        qrcode,
-        //@ts-ignore
-        user: req.user!.userID,
-      };
-      data = await URLService.createShortURL(urlPayload as UrlDocument);
-      output = {
-        message: "Short url created successfully",
-        data:
-          data !== null
-            ? _.omit(Object.values(data)[1], ["user", "updatedAt", "__v"])
-            : undefined,
-      };
-      return res.status(StatusCode.OK).json(output);
-    }
-    if (shortenTrials >= MAX_TRIALS) {
-      return res
-        .status(StatusCode.UNAUTHORIZED)
-        .json({ message: "Please log in or sign up to continue" });
-    }
-    shortenTrials++;
-    //@ts-ignore
-    req.session.shortenTrials = shortenTrials;
-    data = (await URLService.createShortURL(req.body)) as UrlDocument;
-    output = {
-      message: "Short url created successfully",
-      data: `${config.APP_LINK}/${data.short_url}`,
-    };
-    res.status(StatusCode.OK).json(output);
+    });
   }
   static async getURL(req: Request, res: Response) {
     const { short_url } = req.params;
@@ -81,6 +94,7 @@ export default class UrlController {
     if (original_url) {
       original_url.clicks++;
     }
+    console.log(req.ip);
     const locate = await location("197.243.14.45");
     let statPayload = {
       ...locate,
@@ -88,7 +102,7 @@ export default class UrlController {
     };
     await URLService.createStat(statPayload);
     original_url?.save();
-    res.redirect(original_url?.original_url as string);
+    res.status(200).json(original_url?.original_url as string);
   }
   static async createQRCode(req: Request, res: Response) {
     const { short_url } = req.params;
@@ -102,7 +116,7 @@ export default class UrlController {
       return res.status(StatusCode.OK).json(output);
     }
     const createQRCode = await generateQRCode(
-      `${config.APP_LINK}/${short_url}`,
+      `${config.FRONTEND_LINK}/${short_url}`,
       short_url
     );
     await URLService.updateUrl(short_url, {
@@ -111,6 +125,26 @@ export default class UrlController {
     output = {
       message: "QR Code generated succesfully",
       data: createQRCode,
+    };
+    res.status(StatusCode.OK).json(output);
+  }
+  static async getUsersUrl(req: Request, res: Response) {
+    const url = await URLService.getUserUrl(req.params.userID);
+    const user = await UserService.getUserByUserID(req.params.userID);
+    await Auth.checkPermission(req.user as UserDocument, user!.userID);
+    const output: SuccessResponse = {
+      message: `User's URLs`,
+      data: url as any,
+    };
+    res.status(StatusCode.OK).json(output);
+  }
+  static async getUsersQrCode(req: Request, res: Response) {
+    const url = await URLService.getUsersQrCodes(req.params.userID);
+    const user = await UserService.getUserByUserID(req.params.userID);
+    await Auth.checkPermission(req.user as UserDocument, user!.userID);
+    const output: SuccessResponse = {
+      message: `User's Qr Codes`,
+      data: url as any,
     };
     res.status(StatusCode.OK).json(output);
   }

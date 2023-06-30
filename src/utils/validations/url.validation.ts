@@ -79,6 +79,23 @@ class ValidateURLs {
         .default("myshorturl"),
     }),
   });
+  static getSingleUserURLSchema1 = Joi.object({
+    body: Joi.object({}),
+    query: Joi.object({}),
+    params: Joi.object({
+      userID: Joi.string()
+        .min(7)
+        .max(7)
+        .required()
+        .trim()
+        .messages({
+          "any.required": "User ID is required",
+          "string.min": "User ID must be 7 letters",
+          "string.max": "User ID must be 7 letters",
+        })
+        .default("432ba85"),
+    }),
+  });
   //Validations
   static createURL(req: Request, res: Response, next: NextFunction) {
     const createShortURLSchema = ValidateURLs.createShortURLSchema1;
@@ -87,6 +104,10 @@ class ValidateURLs {
   static retrieveURL(req: Request, res: Response, next: NextFunction) {
     const retrieveURLSchema = ValidateURLs.retrieveURLSchema1;
     return ValidateURLs.validate(retrieveURLSchema)(req, res, next);
+  }
+  static getSingleUserURLSchema(req: Request, res: Response, next: NextFunction) {
+    const getSingleUserURLSchema = ValidateURLs.getSingleUserURLSchema1;
+    return ValidateURLs.validate(getSingleUserURLSchema)(req, res, next);
   }
   private static validate(schema: ObjectSchema) {
     return async (req: Request, res: Response, next: NextFunction) => {

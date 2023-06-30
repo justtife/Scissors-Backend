@@ -15,9 +15,25 @@ urlRouter.patch(
   Auth.authUser,
   UrlController.createQRCode
 );
+urlRouter.get(
+  "/api/v1/url/:userID/url",
+  Auth.authUser,
+  ValidateURLs.getSingleUserURLSchema,
+  UrlController.getUsersUrl
+);
+urlRouter.get(
+  "/api/v1/url/:userID/qrcode",
+  Auth.authUser,
+  ValidateURLs.getSingleUserURLSchema,
+  UrlController.getUsersQrCode
+);
 urlRouter.delete(
   "/api/v1/url/:short_url/delete",
   ValidateURLs.retrieveURL,
   UrlController.deleteShortLink
 );
-urlRouter.get("/:short_url", ValidateURLs.retrieveURL, UrlController.getURL);
+urlRouter.get(
+  "/api/v1/url/:short_url",
+  ValidateURLs.retrieveURL,
+  UrlController.getURL
+);

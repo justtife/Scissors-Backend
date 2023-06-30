@@ -23,8 +23,24 @@ export default class URLService {
     }
     return url;
   }
-  static async getUserUrl(link: string): Promise<UrlDocument | null> {
+  static async getUrlByShort(link: string): Promise<UrlDocument | null> {
     const url = await Url.findOne({ short_url: link });
+    return url;
+  }
+  static async getUserUrl(userID: string): Promise<UrlDocument[] | null> {
+    const url = await Url.find({ user: userID });
+    if (url.length < 1) {
+      throw new CustomError.NotFoundError("Not url was found");
+    }
+    return url;
+  }
+  static async getUsersQrCodes(userID: string): Promise<UrlDocument[] | null> {
+    const url = await Url.find({
+      $and: [{ user: userID }, { qrcode: { $ne: null } }],
+    });
+    if (!url) {
+      throw new CustomError.NotFoundError("No QR code has been generated");
+    }
     return url;
   }
   static async updateUrl(

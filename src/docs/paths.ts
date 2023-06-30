@@ -27,6 +27,6 @@ export = {
     "/api/v1/user/password/verify": verifyPasswordDoc,
     "/api/v1/user/logout": logoutDoc,
     "/api/v1/url/create": createUrlDoc,
-    "/{short_url}": retrieveUrlDoc,
+    "/api/v1/url/{short_url}": retrieveUrlDoc,
   },
 };
