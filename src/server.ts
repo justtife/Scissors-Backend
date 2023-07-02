@@ -13,7 +13,7 @@ const start = async () => {
     // await connectToRedis();
     //Start Server
     app
-      .listen(config.PORT, () => {
+      .listen(config.PORT, "0.0.0.0", () => {
         logger.info(
           `Server is listening on port ${config.PORT} and running in ${process.env.APP_ENV} mode`
         );
