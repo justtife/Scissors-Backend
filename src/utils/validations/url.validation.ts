@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Joi, { ObjectSchema } from "joi";
+import BadRequestError from "../errors/badRequest";
 class ValidateURLs {
   //Schemas
   static createShortURLSchema1 = Joi.object({
@@ -16,7 +17,10 @@ class ValidateURLs {
           "string.uri": "URL should start with 'http://' or 'https://'",
           "string.empty": "URL field cannot be empty, please enter a valid URL",
         })
-        .default("https://example.com"),
+        .default("https://example.com")
+        .error(
+          new BadRequestError("Url should start with https:// or http://")
+        ),
       short_url: Joi.string()
         .min(3)
         .max(20)
@@ -105,7 +109,11 @@ class ValidateURLs {
     const retrieveURLSchema = ValidateURLs.retrieveURLSchema1;
     return ValidateURLs.validate(retrieveURLSchema)(req, res, next);
   }
-  static getSingleUserURLSchema(req: Request, res: Response, next: NextFunction) {
+  static getSingleUserURLSchema(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     const getSingleUserURLSchema = ValidateURLs.getSingleUserURLSchema1;
     return ValidateURLs.validate(getSingleUserURLSchema)(req, res, next);
   }

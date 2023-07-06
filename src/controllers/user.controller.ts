@@ -43,7 +43,7 @@ export class UserController {
           let infoMessage: ErrorResponse = {
             status: "failed",
             message: info.message,
-            code: StatusCode.BADREQUEST_ERROR,
+            code: info.code || StatusCode.BADREQUEST_ERROR,
           };
           return res.status(info.statusCode).json(infoMessage);
         }

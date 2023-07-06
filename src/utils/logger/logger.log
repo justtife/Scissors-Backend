@@ -173,3 +173,81 @@
 [error] 23-06-30 10:52:37 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
 [error] 23-06-30 10:53:10 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
 [error] 23-06-30 10:53:10 Scissors-Logger: {"message":"[object Object], Error: You are unauthorized to carry out this operation","metadata":{}}
+[error] 23-07-05 12:49:44 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-07-05 12:50:04 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-07-05 12:50:07 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-07-05 12:53:54 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-07-05 12:54:01 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-07-05 14:34:36 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:34:36 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:34:51 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:34:52 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:35:19 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:35:19 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:35:29 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:35:29 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:35:33 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:35:33 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:35:39 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:35:39 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:35:46 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:35:46 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:35:50 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:35:50 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 14:35:56 Scissors-Logger: {"message":"[object Object], MulterError: Unexpected field","metadata":{}}
+[error] 23-07-05 14:35:56 Scissors-Logger: {"message":"POST /api/v1/user/upload 500 Internal Server Error","metadata":{}}
+[error] 23-07-05 16:02:58 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-07-05 16:04:23 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-07-05 16:07:14 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-07-05 16:07:44 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-07-05 16:08:11 Scissors-Logger: {"message":"[object Object], Error: URL does not exist","metadata":{}}
+[error] 23-07-05 16:08:33 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-07-05 16:08:46 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-07-05 17:00:22 Scissors-Logger: {"message":"[object Object], ValidationError: URL should start with 'http://' or 'https://'","metadata":{}}
+[error] 23-07-05 17:00:26 Scissors-Logger: {"message":"[object Object], ValidationError: URL should start with 'http://' or 'https://'","metadata":{}}
+[error] 23-07-05 17:01:55 Scissors-Logger: {"message":"[object Object], ValidationError: URL should start with 'http://' or 'https://'","metadata":{}}
+[error] 23-07-05 17:03:32 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:03:43 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:04:39 Scissors-Logger: {"message":"[object Object], ValidationError: URL should start with 'http://' or 'https://'","metadata":{}}
+[error] 23-07-05 17:05:12 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:05:50 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:07:00 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:11:28 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:11:49 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:11:56 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:03 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:05 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:07 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:46 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:49 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:50 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:52 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:57 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:12:59 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:14:01 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:14:03 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:14:05 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:14:06 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:14:08 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:18:04 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:19:29 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:05 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:12 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:18 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:20 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:21 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:23 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:24 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:30 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:33 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:41 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:47 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:34:50 Scissors-Logger: {"message":"[object Object], Error: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-05 17:41:04 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-07-05 17:42:09 Scissors-Logger: {"message":"[object Object], ValidationError: Passwords do not match","metadata":{}}
+[error] 23-07-05 17:52:09 Scissors-Logger: {"message":"[object Object], Error: Not url was found","metadata":{}}
+[error] 23-07-05 17:56:51 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}
+[error] 23-07-05 17:57:01 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}
+[error] 23-07-05 18:02:27 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-07-05 18:02:38 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
+[error] 23-07-06 18:50:16 Scissors-Logger: {"message":"[object Object], Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","metadata":{}}

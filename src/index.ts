@@ -102,14 +102,6 @@ import CustomError from "./utils/errors";
 import requestIp from "request-ip";
 app.use(requestIp.mw());
 app.get("/", async (req, res) => {
-  const protocol = req.protocol; // HTTP or HTTPS
-  const hostname = req.hostname; // localhost or the domain name
-  const port = req.get("host"); // Port number
-
-  // Construct the complete URL
-  const apiUrl = `${protocol}://${hostname}:${port}`;
-
-  res.send(apiUrl);
   const output: SuccessResponse = {
     message: process.env.APP_ENV as string,
     data: {
