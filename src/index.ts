@@ -34,15 +34,7 @@ app.use(
 app.disable("x-powered-by");
 app.use(helmet());
 app.set("trust proxy", 1);
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-    exposedHeaders: ["set-cookie"],
-    methods: ["GET", "POST", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors());
 app.use(
   rateLimit({
     windowMs: 10 * 60 * 1000,
