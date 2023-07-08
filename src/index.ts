@@ -44,10 +44,11 @@ app.use(
     methods: ["GET", "POST", "PATCH", "DELETE"],
   })
 );
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
+// app.use((req, res, next) => {
+  
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 app.use(
   rateLimit({
     windowMs: 10 * 60 * 1000,
