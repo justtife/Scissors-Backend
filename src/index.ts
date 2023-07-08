@@ -36,13 +36,16 @@ app.use(helmet());
 app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: "http://localhost:4200",
+    origin: [
+      "http://localhost:4200",
+      "https://scs-justtife.vercel.app/",
+      "https://scs-drab.vercel.app/",
+    ],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
     optionsSuccessStatus: 200,
   })
 );
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
