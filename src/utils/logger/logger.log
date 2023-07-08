@@ -269,3 +269,4 @@
 [error] 23-07-08 04:24:52 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
 [error] 23-07-08 04:26:39 Scissors-Logger: {"message":"[object Object], BadRequestError: Url Custom name already exists","metadata":{}}
 [error] 23-07-08 04:27:49 Scissors-Logger: {"message":"[object Object], BadRequestError: Url Custom name already exists","metadata":{}}
+[error] 23-07-08 15:03:01 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}

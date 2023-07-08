@@ -59,15 +59,30 @@ export default class URLService {
     return { urls, count, totalClicks: totalClicksValue, totalCustomField };
   }
 
-  static async getUsersQrCodes(userID: string): Promise<UrlDocument[] | null> {
-    const url = await Url.find({
-      $and: [{ user: userID }, { qrcode: { $ne: null } }],
-    });
-    if (!url) {
-      throw new CustomError.NotFoundError("No QR code has been generated");
+  static async getUsersQrCodes(
+    userID: string,
+    paginate: number
+  ): Promise<{
+    urls: UrlDocument[] | null;
+    count: number;
+  } | null> {
+    const [urls, count] = await Promise.all([
+      Url.find({ $and: [{ user: userID }, { qrcode: { $ne: null } }] })
+        .sort({ createdAt: -1 })
+        .skip(paginate)
+        .limit(5),
+      Url.countDocuments({
+        $and: [{ user: userID }, { qrcode: { $ne: null } }],
+      }),
+    ]);
+
+    if (urls.length < 1) {
+      throw new CustomError.NotFoundError("No URLs were found");
     }
-    return url;
+
+    return { urls, count };
   }
+  // $and: [{ user: userID }, { qrcode: { $ne: null } }],
   static async updateUrl(
     link: string,
     payload: UrlDocument | any

@@ -144,7 +144,9 @@ export default class UrlController {
     res.status(StatusCode.OK).json(output);
   }
   static async getUsersQrCode(req: Request, res: Response) {
-    const url = await URLService.getUsersQrCodes(req.params.userID);
+    const page = Number(req.query.skip) || 1;
+    const skip = (page - 1) * 5;
+    const url = await URLService.getUsersQrCodes(req.params.userID, skip);
     const user = await UserService.getUserByUserID(req.params.userID);
     await Auth.checkPermission(req.user as UserDocument, user!.userID);
     const output: SuccessResponse = {
