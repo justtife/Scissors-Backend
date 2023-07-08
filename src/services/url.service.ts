@@ -27,13 +27,38 @@ export default class URLService {
     const url = await Url.findOne({ short_url: link });
     return url;
   }
-  static async getUserUrl(userID: string): Promise<UrlDocument[] | null> {
-    const url = await Url.find({ user: userID });
-    if (url.length < 1) {
-      throw new CustomError.NotFoundError("Not url was found");
+  static async getUserUrl(
+    userID: string,
+    paginate: number
+  ): Promise<{
+    urls: UrlDocument[] | null;
+    count: number;
+    totalClicks: number;
+    totalCustomField: number;
+  } | null> {
+    const [urls, count, totalClicks, totalCustomField] = await Promise.all([
+      Url.find({ user: userID })
+        .sort({ createdAt: -1 })
+        .skip(paginate)
+        .limit(5),
+      Url.countDocuments({ user: userID }),
+      Url.aggregate([
+        { $match: { user: userID } },
+        { $group: { _id: null, totalClicks: { $sum: "$clicks" } } },
+      ]),
+      Url.countDocuments({ user: userID, custom: true }),
+    ]);
+
+    if (urls.length < 1) {
+      throw new CustomError.NotFoundError("No URLs were found");
     }
-    return url;
+
+    const totalClicksValue =
+      totalClicks.length > 0 ? totalClicks[0].totalClicks : 0;
+
+    return { urls, count, totalClicks: totalClicksValue, totalCustomField };
   }
+
   static async getUsersQrCodes(userID: string): Promise<UrlDocument[] | null> {
     const url = await Url.find({
       $and: [{ user: userID }, { qrcode: { $ne: null } }],

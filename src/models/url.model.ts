@@ -8,6 +8,7 @@ const UrlSchema = new Schema<UrlDocument>(
       type: String,
       required: true,
     },
+    custom: { type: Boolean, default: false },
     tag: Array,
     qrcode: String,
     clicks: { type: Number, default: 0 },

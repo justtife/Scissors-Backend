@@ -41,11 +41,13 @@ export default class UrlController {
     }
     checkLogIn().then(async (response) => {
       if (response) {
-        let qrcode, short;
+        let qrcode, short, custom;
         if (short_url) {
           short = short_url;
+          custom = true;
         } else {
           short = uuidv4().slice(0, 6);
+          custom = false;
         }
         if (req.body.makeQR === true) {
           qrcode = await generateQRCode(
@@ -60,10 +62,11 @@ export default class UrlController {
           name,
           short_url: short,
           qrcode,
+          custom,
           //@ts-ignore
           user: req.user!.userID,
         };
-        data = await URLService.createShortURL(urlPayload as UrlDocument);
+        data = await URLService.createShortURL(urlPayload as any);
         output = {
           message: "Short url created successfully",
           data:
@@ -77,7 +80,7 @@ export default class UrlController {
         if (!req.body.short_url) {
           urlPayload = { ...req.body, short_url: uuidv4().slice(0, 6) };
         } else {
-          urlPayload = { ...req.body };
+          urlPayload = { ...req.body, custom: true };
         }
         data = (await URLService.createShortURL(urlPayload)) as UrlDocument;
         output = {
@@ -129,7 +132,9 @@ export default class UrlController {
     res.status(StatusCode.OK).json(output);
   }
   static async getUsersUrl(req: Request, res: Response) {
-    const url = await URLService.getUserUrl(req.params.userID);
+    const page = Number(req.query.skip) || 1;
+    const skip = (page - 1) * 5;
+    const url = await URLService.getUserUrl(req.params.userID, skip);
     const user = await UserService.getUserByUserID(req.params.userID);
     await Auth.checkPermission(req.user as UserDocument, user!.userID);
     const output: SuccessResponse = {

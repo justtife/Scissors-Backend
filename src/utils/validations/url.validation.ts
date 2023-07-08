@@ -85,7 +85,9 @@ class ValidateURLs {
   });
   static getSingleUserURLSchema1 = Joi.object({
     body: Joi.object({}),
-    query: Joi.object({}),
+    query: Joi.object({
+      skip: Joi.number().optional().default(1),
+    }),
     params: Joi.object({
       userID: Joi.string()
         .min(7)

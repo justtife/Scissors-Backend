@@ -6,6 +6,7 @@ type UrlDocument = Document & {
   clicks: number;
   qrcode: string;
   description: string;
+  custom: boolean;
   name: string;
   user?: string;
   isURLValid(url: string): Promise<Error | boolean>;

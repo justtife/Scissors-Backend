@@ -25,6 +25,11 @@ const errorHandler = (
       customError.statusCode = StatusCode.BAD_REQUEST;
       customError.data = err.message;
       break;
+    case err.name === "BadRequestError":
+      customError.message = err.message;
+      customError.statusCode = StatusCode.BAD_REQUEST;
+      customError.data = err.message;
+      break;
     default:
       customError.message =
         err.name || "An error occured, please try again later";
@@ -39,7 +44,13 @@ const errorHandler = (
     data: customError.data,
     code: customError.code,
   };
+  console.log("------------");
   console.log(err);
+  console.log("------------");
+  console.log(err.message);
+  console.log("------------");
+  console.log(err.name);
+  console.log("------------");
   logger.error(`${output}, ${err}`);
   res.status(customError.statusCode).json(output);
 };

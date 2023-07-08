@@ -251,3 +251,21 @@
 [error] 23-07-05 18:02:27 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
 [error] 23-07-05 18:02:38 Scissors-Logger: {"message":"[object Object], Error: Short url does not exists","metadata":{}}
 [error] 23-07-06 18:50:16 Scissors-Logger: {"message":"[object Object], Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","metadata":{}}
+[error] 23-07-08 00:26:34 Scissors-Logger: {"message":"[object Object], TypeError: url.limit is not a function","metadata":{}}
+[error] 23-07-08 00:28:28 Scissors-Logger: {"message":"[object Object], TypeError: url.limt is not a function","metadata":{}}
+[error] 23-07-08 00:29:14 Scissors-Logger: {"message":"[object Object], TypeError: url.limit is not a function","metadata":{}}
+[error] 23-07-08 00:36:43 Scissors-Logger: {"message":"[object Object], TypeError: url.skip is not a function","metadata":{}}
+[error] 23-07-08 01:05:21 Scissors-Logger: {"message":"[object Object], SyntaxError: Unexpected token } in JSON at position 73","metadata":{}}
+[error] 23-07-08 02:16:52 Scissors-Logger: {"message":"[object Object], MongoServerSelectionError: getaddrinfo ENOTFOUND ac-xfmv0bi-shard-00-02.oapakcc.mongodb.net","metadata":{}}
+[error] 23-07-08 03:04:20 Scissors-Logger: {"message":"[object Object], ValidationError: \"query.$\" is not allowed","metadata":{}}
+[error] 23-07-08 03:04:35 Scissors-Logger: {"message":"[object Object], ValidationError: \"query.1\" is not allowed","metadata":{}}
+[error] 23-07-08 03:04:36 Scissors-Logger: {"message":"[object Object], ValidationError: \"query.1\" is not allowed","metadata":{}}
+[error] 23-07-08 03:04:56 Scissors-Logger: {"message":"[object Object], ValidationError: \"query.1\" is not allowed","metadata":{}}
+[error] 23-07-08 03:05:58 Scissors-Logger: {"message":"[object Object], ValidationError: \"query.skip:1\" is not allowed","metadata":{}}
+[error] 23-07-08 03:06:47 Scissors-Logger: {"message":"[object Object], ValidationError: \"query.skip\" must be a number","metadata":{}}
+[error] 23-07-08 04:15:50 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-07-08 04:21:20 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-07-08 04:23:25 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-07-08 04:24:52 Scissors-Logger: {"message":"[object Object], Error: Url Custom name already exists","metadata":{}}
+[error] 23-07-08 04:26:39 Scissors-Logger: {"message":"[object Object], BadRequestError: Url Custom name already exists","metadata":{}}
+[error] 23-07-08 04:27:49 Scissors-Logger: {"message":"[object Object], BadRequestError: Url Custom name already exists","metadata":{}}
