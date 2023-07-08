@@ -42,7 +42,6 @@ app.use(
       "https://scs-drab.vercel.app/",
     ],
     methods: ["GET", "POST", "PATCH", "DELETE"],
-    optionsSuccessStatus: 200,
   })
 );
 app.use((req, res, next) => {
