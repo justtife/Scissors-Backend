@@ -38,22 +38,17 @@ app.use(
   cors({
     origin: [
       "http://localhost:4200",
-      "https://scs-justtife.vercel.app/",
-      "https://scs-drab.vercel.app/",
+      "https://scs-justtife.vercel.app",
+      "https://scs-drab.vercel.app",
     ],
     methods: ["GET", "POST", "PATCH", "DELETE"],
-    // allowedHeaders: "Authorization",
+    allowedHeaders: "Authorization",
   })
 );
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Headers", [
-    "http://localhost:4200",
-    "https://scs-justtife.vercel.app/",
-    "https://scs-drab.vercel.app/",
-  ]);
-  res.setHeader("Content-Type", "Authorization");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   next();
+// });
 app.use(
   rateLimit({
     windowMs: 10 * 60 * 1000,
