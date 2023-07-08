@@ -34,26 +34,8 @@ app.use(
 app.disable("x-powered-by");
 app.use(helmet());
 app.set("trust proxy", 1);
-app.use(
-  cors({
-    origin: [
-      "http://localhost:4200",
-      "https://scs-justtife.vercel.app",
-      "https://scs-drab.vercel.app",
-    ],
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    // allowedHeaders: "Authorization",
-  })
-);
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Headers", [
-    "http://localhost:4200",
-    "https://scs-justtife.vercel.app",
-    "https://scs-drab.vercel.app",
-  ]);
-  res.setHeader("Content-Type", "Authorization");
-  next();
-});
+app.use(cors());
+
 app.use(
   rateLimit({
     windowMs: 10 * 60 * 1000,
