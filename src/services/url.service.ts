@@ -33,22 +33,25 @@ export default class URLService {
     paginate: number
   ): Promise<{
     urls: UrlDocument[] | null;
+    totalUrls: UrlDocument[];
     count: number;
     totalClicks: number;
     totalCustomField: number;
   } | null> {
-    const [urls, count, totalClicks, totalCustomField] = await Promise.all([
-      Url.find({ user: userID })
-        .sort({ createdAt: -1 })
-        .skip(paginate)
-        .limit(5),
-      Url.countDocuments({ user: userID }),
-      Url.aggregate([
-        { $match: { user: userID } },
-        { $group: { _id: null, totalClicks: { $sum: "$clicks" } } },
-      ]),
-      Url.countDocuments({ user: userID, custom: true }),
-    ]);
+    const [urls, totalUrls, count, totalClicks, totalCustomField] =
+      await Promise.all([
+        Url.find({ user: userID })
+          .sort({ createdAt: -1 })
+          .skip(paginate)
+          .limit(5),
+        Url.find({ user: userID }),
+        Url.countDocuments({ user: userID }),
+        Url.aggregate([
+          { $match: { user: userID } },
+          { $group: { _id: null, totalClicks: { $sum: "$clicks" } } },
+        ]),
+        Url.countDocuments({ user: userID, custom: true }),
+      ]);
 
     if (urls.length < 1) {
       throw new CustomError.NotFoundError("No URLs were found");
@@ -57,7 +60,13 @@ export default class URLService {
     const totalClicksValue =
       totalClicks.length > 0 ? totalClicks[0].totalClicks : 0;
 
-    return { urls, count, totalClicks: totalClicksValue, totalCustomField };
+    return {
+      urls,
+      totalUrls,
+      count,
+      totalClicks: totalClicksValue,
+      totalCustomField,
+    };
   }
 
   static async getUsersQrCodes(
