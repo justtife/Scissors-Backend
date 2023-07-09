@@ -33,7 +33,7 @@ app.use(
 );
 app.disable("x-powered-by");
 app.use(helmet());
-app.set("trust proxy", 1);
+app.set("trust proxy", true);
 app.use(cors());
 
 app.use(
@@ -99,6 +99,7 @@ app.get("/", async (req, res) => {
     message: process.env.APP_ENV as string,
     data: {
       start: "Hello World",
+      ok: req.socket.remoteAddress,
     },
   };
   res.status(200).json(output);

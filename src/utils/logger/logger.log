@@ -270,3 +270,7 @@
 [error] 23-07-08 04:26:39 Scissors-Logger: {"message":"[object Object], BadRequestError: Url Custom name already exists","metadata":{}}
 [error] 23-07-08 04:27:49 Scissors-Logger: {"message":"[object Object], BadRequestError: Url Custom name already exists","metadata":{}}
 [error] 23-07-08 15:03:01 Scissors-Logger: {"message":"[object Object], ValidationError: Password field must be more than 6 characters","metadata":{}}
+[error] 23-07-09 01:59:06 Scissors-Logger: {"message":"[object Object], Error: No URLs were found","metadata":{}}
+[error] 23-07-09 01:59:15 Scissors-Logger: {"message":"[object Object], Error: No URLs were found","metadata":{}}
+[error] 23-07-09 02:14:28 Scissors-Logger: {"message":"[object Object], Error: No URLs were found","metadata":{}}
+[error] 23-07-09 12:56:18 Scissors-Logger: {"message":"[object Object], Error: No URLs were found","metadata":{}}

@@ -97,8 +97,11 @@ export default class UrlController {
     if (original_url) {
       original_url.clicks++;
     }
-    console.log(req.ip);
-    const locate = await location("197.243.14.45");
+    let ip = req.headers["x-forwarded-for"];
+    if (!ip) {
+      ip = req.socket.remoteAddress;
+    }
+    const locate = await location(ip);
     let statPayload = {
       ...locate,
       short_url,
