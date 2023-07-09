@@ -101,6 +101,9 @@ export default class UrlController {
     if (!ip) {
       ip = req.socket.remoteAddress;
     }
+    console.log(ip);
+    console.log(req.socket.remoteAddress);
+    console.log(req.ip);
     const locate = await location(ip);
     let statPayload = {
       ...locate,
