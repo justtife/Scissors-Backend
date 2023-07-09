@@ -3,6 +3,7 @@ import Stat from "../models/stat.model";
 import { UrlDocument, StatDocument } from "../types";
 import CustomError from "../utils/errors";
 import _ from "lodash";
+import NotFoundError from "../utils/errors/notFound";
 export default class URLService {
   static async createShortURL(
     payload: UrlDocument
@@ -82,7 +83,6 @@ export default class URLService {
 
     return { urls, count };
   }
-  // $and: [{ user: userID }, { qrcode: { $ne: null } }],
   static async updateUrl(
     link: string,
     payload: UrlDocument | any
@@ -93,6 +93,25 @@ export default class URLService {
   static async createStat(data: any): Promise<StatDocument | null> {
     const stat = await Stat.create(data);
     return stat;
+  }
+  static async getStat(
+    userID: string,
+    paginate: number,
+    sort?: string
+  ): Promise<StatDocument[] | null> {
+    let statResult;
+    let query = Stat.find({ user: userID }).skip(paginate).limit(5);
+    if (sort && sort.length > 5) {
+      query.where({ short_url: sort });
+    }
+    query.sort({ createdAt: -1 });
+    const statData = await query.exec();
+    if (!statData) {
+      throw new NotFoundError("Url has not been clicked");
+    } else {
+      statResult = statData;
+    }
+    return statResult;
   }
   static async deleteUrl(link: string): Promise<void> {
     const short_url = await Url.findOneAndDelete({ short_url: link });

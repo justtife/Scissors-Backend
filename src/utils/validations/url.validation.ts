@@ -83,6 +83,36 @@ class ValidateURLs {
         .default("myshorturl"),
     }),
   });
+  static getStat = Joi.object({
+    body: Joi.object({}),
+    query: Joi.object({
+      skip: Joi.string().optional().default("1"),
+      search: Joi.string()
+        .min(3)
+        .max(20)
+        .messages({
+          "string.min": "URL should have minimum length of 3",
+          "string.max": "URL should not exceed 20 characters",
+          "string.empty":
+            "URL field cannot be empty, please enter a valid custom name",
+        })
+        .allow(null)
+        .default("myshorturl"),
+    }),
+    params: Joi.object({
+      userID: Joi.string()
+        .min(7)
+        .max(7)
+        .required()
+        .trim()
+        .messages({
+          "any.required": "User ID is required",
+          "string.min": "User ID must be 7 letters",
+          "string.max": "User ID must be 7 letters",
+        })
+        .default("432ba85"),
+    }),
+  });
   static getSingleUserURLSchema1 = Joi.object({
     body: Joi.object({}),
     query: Joi.object({
@@ -110,6 +140,10 @@ class ValidateURLs {
   static retrieveURL(req: Request, res: Response, next: NextFunction) {
     const retrieveURLSchema = ValidateURLs.retrieveURLSchema1;
     return ValidateURLs.validate(retrieveURLSchema)(req, res, next);
+  }
+  static getStatData(req: Request, res: Response, next: NextFunction) {
+    const getStatSchema = ValidateURLs.getStat;
+    return ValidateURLs.validate(getStatSchema)(req, res, next);
   }
   static getSingleUserURLSchema(
     req: Request,

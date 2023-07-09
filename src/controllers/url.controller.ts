@@ -101,6 +101,7 @@ export default class UrlController {
     let statPayload = {
       ...locate,
       short_url,
+      user: original_url!.user || "Anonymous",
     };
     await URLService.createStat(statPayload);
     original_url?.save();
@@ -151,6 +152,17 @@ export default class UrlController {
     const output: SuccessResponse = {
       message: `User's Qr Codes`,
       data: url as any,
+    };
+    res.status(StatusCode.OK).json(output);
+  }
+  static async getStat(req: Request, res: Response) {
+    const page = Number(req.query.skip) || 1;
+    const skip = (page - 1) * 5;
+    const sort = req.query.search !== undefined ? String(req.query.search) : "";
+    const stat = await URLService.getStat(req.params.userID, skip, sort);
+    const output: SuccessResponse = {
+      message: "Short URL stat",
+      data: stat as any,
     };
     res.status(StatusCode.OK).json(output);
   }

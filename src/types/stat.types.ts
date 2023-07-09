@@ -8,5 +8,6 @@ type StatDocument = Document & {
   countryName?: string;
   countryCapital?: string;
   countryFlag?: string;
+  user: String | "Anonymous";
 };
 export default StatDocument;

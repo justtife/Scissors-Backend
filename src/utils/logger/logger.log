@@ -278,3 +278,4 @@
 [error] 23-07-09 13:00:08 Scissors-Logger: {"message":"[object Object], Error: No URLs were found","metadata":{}}
 [error] 23-07-09 13:00:33 Scissors-Logger: {"message":"[object Object], Error: No URLs were found","metadata":{}}
 [error] 23-07-09 13:00:40 Scissors-Logger: {"message":"[object Object], Error: No URLs were found","metadata":{}}
+[error] 23-07-09 15:22:21 Scissors-Logger: {"message":"[object Object], ValidationError: User ID must be 7 letters","metadata":{}}

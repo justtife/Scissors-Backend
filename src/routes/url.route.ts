@@ -37,3 +37,8 @@ urlRouter.get(
   ValidateURLs.retrieveURL,
   UrlController.getURL
 );
+urlRouter.get(
+  "/api/v1/url/stat/:userID",
+  ValidateURLs.getStatData,
+  UrlController.getStat
+);

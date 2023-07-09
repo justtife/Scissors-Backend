@@ -12,6 +12,7 @@ const StatSchema = new Schema<StatDocument>(
     countryCapital: String,
     countryFlag: String,
     continentName: String,
+    user: String,
   },
   { timestamps: true }
 );
