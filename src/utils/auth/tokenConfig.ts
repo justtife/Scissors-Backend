@@ -15,8 +15,8 @@ interface Payload {
 }
 const createJWT = (payload: Payload): string => {
   const token = sign(payload.payload, config.JWT_SECRET, {
-    //Token Expires in One Hour
-    expiresIn: "1h",
+    //Token Expires in 3 days
+    expiresIn: "3d",
   });
   return token;
 };
@@ -31,20 +31,20 @@ const attachCookiesToResponse = (
   //Create refresh token
   const refreshTokenJWT = createJWT({ payload: { user, refreshToken } });
   //Cookie expiry time
-  const oneHour = 60 * 60 * 1000;
-  const sixHours = 6 * 60 * 60 * 1000;
+  const threeDays = 3 * 60 * 60 * 1000;
+  const sevenDays = 7 * 6 * 60 * 60 * 1000;
   //Access Token
   res.cookie("accessToken", accessTokenJWT, {
     httpOnly: true,
     signed: true,
-    expires: new Date(Date.now() + oneHour),
+    expires: new Date(Date.now() + threeDays),
     secure: false,
   });
   //Refresh Token to refresh accessToken on every request
   res.cookie("refreshToken", refreshTokenJWT, {
     httpOnly: true,
     signed: true,
-    expires: new Date(Date.now() + sixHours),
+    expires: new Date(Date.now() + sevenDays),
     secure: false,
   });
   return accessTokenJWT;

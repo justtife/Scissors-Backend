@@ -43,7 +43,6 @@ class Auth {
         )(req, res, next);
       });
     } catch (error) {
-      console.error(error);
       return false;
     }
   }

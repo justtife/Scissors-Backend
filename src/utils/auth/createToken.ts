@@ -8,12 +8,10 @@ import crypto from "crypto-js";
  * @returns accessToken
  */
 export const token = async (tokenArg: TokenArgs) => {
-  //Destructure Token Args
   let { req, res, user } = tokenArg;
   //Create user payload
   const userToken = tokenUser(user);
   let refreshToken;
-  let accessToken;
   //Check for existing token
   //Verify the user has been logged in before
   const existingToken = <TokenDocument>(
@@ -22,12 +20,11 @@ export const token = async (tokenArg: TokenArgs) => {
   if (existingToken) {
     //Attach the existing token to cookies if there is an exsting token
     refreshToken = existingToken.refreshToken;
-    accessToken = attachCookiesToResponse({
+    return attachCookiesToResponse({
       res,
       user: userToken as User,
       refreshToken,
     });
-    return accessToken;
   } else {
     //Number of byte
     const numBytes: number = 32;
