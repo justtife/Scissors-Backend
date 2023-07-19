@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
-import { StatusCode, ErrorResponse } from "../types";
+import NotFoundError from "../utils/errors/notFound";
 const notFound = (req: Request, res: Response) => {
-  const output: ErrorResponse = {
-    status: "failed",
-    message: `Route ${req.originalUrl} does not exist`,
-  };
-  res.status(StatusCode.NOT_FOUND).json(output);
+  throw new NotFoundError(`Route ${req.originalUrl} does not exist`);
 };
 export default notFound;

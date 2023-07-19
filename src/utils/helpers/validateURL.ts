@@ -1,5 +1,5 @@
 import dns from "dns";
-import CustomError from "../errors";
+import { BadRequestError } from "../errors";
 export async function validateURL(url: string) {
   const domain = new URL(url).hostname;
   await dns.promises
@@ -8,6 +8,6 @@ export async function validateURL(url: string) {
       return true;
     })
     .catch((err: Error) => {
-      throw new CustomError.BadRequestError("URL does not exist");
+      throw new BadRequestError("URL does not exist");
     });
 }

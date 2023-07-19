@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import CustomError from "../utils/errors/customError";
+import { CustomError } from "../utils/errors";
 import { StatusCode, ErrorResponse } from "../types";
 import logger from "../utils/logger/logger";
 const errorHandler = (
@@ -25,17 +25,13 @@ const errorHandler = (
       customError.statusCode = StatusCode.BAD_REQUEST;
       customError.data = err.message;
       break;
-    case err.name === "BadRequestError":
-      customError.message = err.message;
-      customError.statusCode = StatusCode.BAD_REQUEST;
-      customError.data = err.message;
-      break;
     default:
       customError.message =
         err.name || "An error occured, please try again later";
       customError.statusCode =
         err.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
       customError.data = err.message;
+      customError.code = err.errorCode;
       break;
   }
   const output: ErrorResponse = {
@@ -44,11 +40,11 @@ const errorHandler = (
     data: customError.data,
     code: customError.code,
   };
-  console.log("------------");
+  console.log("-----Error-------");
   console.log(err);
-  console.log("------------");
+  console.log("-----Error Message-------");
   console.log(err.message);
-  console.log("------------");
+  console.log("-----Error Name-------");
   console.log(err.name);
   console.log("------------");
   logger.error(`${output}, ${err}`);

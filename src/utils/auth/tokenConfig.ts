@@ -1,7 +1,6 @@
 import { sign } from "jsonwebtoken";
 import { UserDocument, AttachCookiesToResponse } from "../../types";
-import { mainConfig } from "../../config/config";
-const config = mainConfig[process.env.APP_ENV as string];
+import config from "../../config/config";
 //Create Token User
 const tokenUser = (user: UserDocument): object => {
   return {

@@ -1,93 +1,37 @@
 import { Request, Response, NextFunction } from "express";
 import Joi, { ObjectSchema } from "joi";
-import BadRequestError from "../errors/badRequest";
+import { BadRequestError } from "../errors";
+
 class ValidateUsers {
   //Schemas
   static createUserSchema1 = Joi.object({
     body: Joi.object({
-      firstname: Joi.string()
-        .min(3)
-        .max(50)
-        .trim()
-        .messages({
-          "any.required": "Firstname is required",
-          "string.min": "Firstname field must be more than 3 letters",
-          "string.max": "Firstname field must be less than 50 letters",
-          "string.empty":
-            "Firstname field cannot be empty, please enter firstname",
-        })
-        .default("John")
-        .required(),
-      lastname: Joi.string()
-        .min(3)
-        .max(50)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "Lastname is required",
-          "string.min": "Lastname field must be more than 3 letters",
-          "string.max": "Lastname field must be less than 50 letters",
-          "string.empty":
-            "Lastname field cannot be empty, please enter lastname",
-        })
-        .default("doe"),
+      firstname: Joi.string().min(3).max(50).trim().default("John").required(),
+      lastname: Joi.string().min(3).max(50).required().trim().default("doe"),
       username: Joi.string()
         .min(3)
         .max(50)
         .required()
         .trim()
-        .messages({
-          "any.required": "Username is required",
-          "string.min": "Username field must be more than 3 letters",
-          "string.max": "Username field must be less than 50 letters",
-          "string.empty":
-            "Username field cannot be empty, please enter username",
-        })
         .default("John Doe"),
       email: Joi.string()
-        .email({ minDomainSegments: 2 })
+        .trim()
+        .email()
         .required()
-        .messages({
-          "any.required": "Email is required",
-          "string.empty":
-            "Email field cannot be empty, please enter a valid email",
-          "string.email": "Enter a valid email",
-        })
         .default("johndoe@email.com"),
-      sex: Joi.string()
-        .valid("male", "female", "others")
-        .error(
-          new BadRequestError("Value for sex can only be male/female/others")
-        ),
-      profilePic: Joi.string().allow("").optional(),
-      nationality: Joi.string()
-        .min(3)
-        .max(30)
-        .error(
-          new BadRequestError(
-            "Nationality value should have a value beteween 3 and 30"
-          )
-        )
-        .default("Nigerian"),
+      sex: Joi.string().valid("male", "female", "others"),
+      profilePic: Joi.string(),
+      nationality: Joi.string().min(3).max(30).default("Nigerian"),
       password: Joi.string()
         .min(6)
         .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
-        .messages({
-          "any.required": "Password is required",
-          "string.min": "Password field must be more than 6 characters",
-          "string.empty": `Password field cannot be empty, please enter password`,
-          "string.pattern.base": ` Password can only contain alphanumeric including !,@,#,$,%,&,*`,
-        })
         .default("Passcode"),
       repeat_password: Joi.string()
         .required()
+        .trim()
         .equal(Joi.ref("password"))
-        .messages({
-          "any.required": "Repeat password field is required",
-          "any.only": "Passwords do not match",
-        })
         .default("Passcode"),
     }).with("password", "repeat_password"),
     query: Joi.object({}),
@@ -95,10 +39,7 @@ class ValidateUsers {
   });
   static logUserInSchema1 = Joi.object({
     body: Joi.object({
-      user: Joi.alternatives([
-        Joi.string(),
-        Joi.string().email({ minDomainSegments: 2 }),
-      ])
+      user: Joi.alternatives([Joi.string().trim(), Joi.string().email().trim()])
         .default("johndoe@email.com")
         .required(),
       password: Joi.string()
@@ -106,13 +47,7 @@ class ValidateUsers {
         .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
-        .default("Passcode")
-        .messages({
-          "any.required": "Password is required",
-          "string.min": "Password field must be more than 6 characters",
-          "string.empty": `Password field cannot be empty, please enter password`,
-          "string.pattern.base": ` Password can only contain alphanumeric including !,@,#,$,%,&,*`,
-        }),
+        .default("Passcode"),
     }),
     query: Joi.object({}),
     params: Joi.object({}),
@@ -121,90 +56,39 @@ class ValidateUsers {
     body: Joi.object({}),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string()
-        .min(7)
-        .max(7)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "User ID is required",
-          "string.min": "User ID must be 7 letters",
-          "string.max": "User ID must be 7 letters",
-        })
-        .default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
     }),
+  });
+  static getAllUsersSchema1 = Joi.object({
+    body: Joi.object({}),
+    query: Joi.object({
+      search: Joi.alternatives([
+        Joi.string().trim(),
+        Joi.string().email().trim(),
+      ]).default("johndoe@email.com"),
+      skip: Joi.string().default("1"),
+      role: Joi.string().valid("user", "admin", "owner").default("user"),
+      is_active: Joi.boolean(),
+    }),
+    params: Joi.object({}),
   });
   static updateUserSchema1 = Joi.object({
     body: Joi.object({
-      firstname: Joi.string()
-        .min(3)
-        .max(50)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "Firstname is required",
-          "string.min": "Firstname field must be more than 3 letters",
-          "string.max": "Firstname field must be less than 50 letters",
-          "string.empty":
-            "Firstname field cannot be empty, please enter firstname",
-        })
-        .default("Jane"),
+      firstname: Joi.string().min(3).max(50).required().trim().default("Jane"),
       profilePic: Joi.string(),
-      lastname: Joi.string()
-        .min(3)
-        .max(50)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "Lastname is required",
-          "string.min": "Lastname field must be more than 3 letters",
-          "string.max": "Lastname field must be less than 50 letters",
-          "string.empty":
-            "Lastname field cannot be empty, please enter lastname",
-        })
-        .default("Smith"),
+      lastname: Joi.string().min(3).max(50).required().trim().default("Smith"),
       username: Joi.string()
         .min(3)
         .max(50)
         .required()
         .trim()
-        .messages({
-          "any.required": "Username is required",
-          "string.min": "Username field must be more than 3 letters",
-          "string.max": "Username field must be less than 50 letters",
-          "string.empty":
-            "Username field cannot be empty, please enter username",
-        })
         .default("Jane Smith"),
-      sex: Joi.string()
-        .valid("male", "female", "others")
-        .error(
-          new BadRequestError("Value for sex can only be male/female/others")
-        )
-        .default("female"),
-      nationality: Joi.string()
-        .min(3)
-        .max(30)
-        .error(
-          new BadRequestError(
-            "Nationality value should have a value beteween 3 and 30"
-          )
-        )
-        .default("British"),
+      sex: Joi.string().valid("male", "female", "others").default("female"),
+      nationality: Joi.string().min(3).max(30).default("British"),
     }),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string()
-        .min(7)
-        .max(7)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "User ID is required",
-          "string.min": "User ID must be 7 letters",
-          "string.max": "User ID must be 7 letters",
-        })
-        .default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
     }),
   });
   static deleteUserAccountSchema1 = Joi.object({
@@ -214,50 +98,24 @@ class ValidateUsers {
         .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
-        .messages({
-          "any.required": "Password is required",
-          "string.min": "Password field must be more than 6 characters",
-          "string.empty": `Password field cannot be empty, please enter password`,
-          "string.pattern.base": ` Password can only contain alphanumeric including !,@,#,$,%,&,*`,
-        })
         .default("Passcode"),
     }),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string()
-        .min(7)
-        .max(7)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "User ID is required",
-          "string.min": "User ID must be 7 letters",
-          "string.max": "User ID must be 7 letters",
-        })
-        .default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
     }),
   });
   static changeEmailSchema1 = Joi.object({
     body: Joi.object({
       oldEmail: Joi.string()
-        .email({ minDomainSegments: 2 })
+        .email()
+        .trim()
         .required()
-        .messages({
-          "any.required": "Old email is required",
-          "string.empty":
-            "Email field cannot be empty, please enter a valid email",
-          "string.email": "Enter a valid email",
-        })
         .default("johndoe@email.com"),
       newEmail: Joi.string()
-        .email({ minDomainSegments: 2 })
+        .email()
+        .trim()
         .required()
-        .messages({
-          "any.required": "A new email is required",
-          "string.empty":
-            "Email field cannot be empty, please enter a valid email",
-          "string.email": "Enter a valid email",
-        })
         .default("janesmith@email.com"),
     }),
     query: Joi.object({}),
@@ -270,52 +128,25 @@ class ValidateUsers {
         .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
-        .messages({
-          "any.required": "Old Password is required",
-          "string.min": "Password field must be more than 6 characters",
-          "string.empty": `Password field cannot be empty, please enter password`,
-          "string.pattern.base": ` Password can only contain alphanumeric including !,@,#,$,%,&,*`,
-        })
         .default("Passcode"),
       newPassword: Joi.string()
         .min(6)
         .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
-        .messages({
-          "any.required": "New Password is required",
-          "string.min": "Password field must be more than 6 characters",
-          "string.empty": `Password field cannot be empty, please enter password`,
-          "string.pattern.base": ` Password can only contain alphanumeric including !,@,#,$,%,&,*`,
-        })
         .default("Password1234"),
     }),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string()
-        .min(7)
-        .max(7)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "User ID is required",
-          "string.min": "User ID must be 7 letters",
-          "string.max": "User ID must be 7 letters",
-        })
-        .default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
     }),
   });
   static sendResetPasswordEmailSchema1 = Joi.object({
     body: Joi.object({
       email: Joi.string()
-        .email({ minDomainSegments: 2 })
+        .email()
+        .trim()
         .required()
-        .messages({
-          "any.required": "Email is required",
-          "string.empty":
-            "Email field cannot be empty, please enter a valid email",
-          "string.email": "Enter a valid email",
-        })
         .default("janesmith@email.com"),
     }),
     query: Joi.object({}),
@@ -328,20 +159,11 @@ class ValidateUsers {
         .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
-        .messages({
-          "any.required": "Password is required",
-          "string.min": "Password field must be more than 6 characters",
-          "string.empty": `Password field cannot be empty, please enter password`,
-          "string.pattern.base": ` Password can only contain alphanumeric including !,@,#,$,%,&,*`,
-        })
         .default("MyPassword1234"),
       repeat_password: Joi.string()
         .required()
+        .trim()
         .equal(Joi.ref("newPassword"))
-        .messages({
-          "any.required": "Repeat password field is required",
-          "any.only": "Passwords do not match",
-        })
         .default("MyPassword1234"),
     }).with("newPassword", "repeat_password"),
     query: Joi.object({
@@ -350,11 +172,6 @@ class ValidateUsers {
         .max(15)
         .required()
         .trim()
-        .messages({
-          "any.required": "Password token is invalid",
-          "string.min": "Password token is invalid",
-          "string.max": "Password token is invalid",
-        })
         .default("b0243e59-ed5d-4"),
     }),
     params: Joi.object({}),
@@ -371,6 +188,10 @@ class ValidateUsers {
   static getSingleUser(req: Request, res: Response, next: NextFunction) {
     const getSingleUserSchema = ValidateUsers.getSingleUserSchema1;
     return ValidateUsers.validate(getSingleUserSchema)(req, res, next);
+  }
+  static getAllUsers(req: Request, res: Response, next: NextFunction) {
+    const getAllUsersSchema = ValidateUsers.getAllUsersSchema1;
+    return ValidateUsers.validate(getAllUsersSchema)(req, res, next);
   }
   static deleteUserAccount(req: Request, res: Response, next: NextFunction) {
     const deleteUserAccountSchema = ValidateUsers.deleteUserAccountSchema1;
@@ -401,14 +222,24 @@ class ValidateUsers {
     const verifyPasswordSchema = ValidateUsers.verifyPasswordSchema1;
     return ValidateUsers.validate(verifyPasswordSchema)(req, res, next);
   }
+
   private static validate(schema: ObjectSchema) {
     return async (req: Request, res: Response, next: NextFunction) => {
-      await schema.validateAsync({
-        body: req.body,
-        query: req.query,
-        params: req.params,
-      });
-      next();
+      try {
+        await schema.validateAsync({
+          body: req.body,
+          query: req.query,
+          params: req.params,
+        });
+        next();
+      } catch (error: any) {
+        const fieldName = error.details[0].context.key;
+        const errorMessage = error.details[0].message.replace(
+          /^.+\"\s/,
+          `${fieldName} `
+        );
+        throw new BadRequestError(errorMessage);
+      }
     };
   }
 }

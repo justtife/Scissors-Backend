@@ -8,7 +8,7 @@ import { ImageUploader } from "../utils/image/multer";
 const upload = new ImageUploader();
 userRouter.post(
   "/upload",
-  upload.upload.single("profilePic"),
+  upload.uploadErrorHandlerMiddleware.bind(upload),
   UserController.uploadImage
 );
 userRouter.post(
@@ -28,6 +28,7 @@ userRouter.get(
   "/users",
   Auth.authUser,
   Auth.authorizePermissions("admin", "owner"),
+  UserValidation.getAllUsers,
   UserController.getAllUsers
 );
 userRouter.patch(

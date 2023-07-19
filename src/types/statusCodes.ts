@@ -1,4 +1,6 @@
 enum StatusCode {
+  SUCCESS_RESPONSE = 12345,
+  ERROR_RESPONSE = 54321,
   BAD_REQUEST = 400,
   OK = 200,
   CREATED = 201,

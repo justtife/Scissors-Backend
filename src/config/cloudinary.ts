@@ -1,5 +1,4 @@
-import { mainConfig } from "./config";
-const config = mainConfig[process.env.APP_ENV as string];
+import config from "./config";
 import cloudinary from "cloudinary";
 cloudinary.v2.config({
   cloud_name: config.CLOUD_NAME,

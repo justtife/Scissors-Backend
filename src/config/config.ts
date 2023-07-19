@@ -43,5 +43,7 @@ const mainConfig: { [key: string]: any } = {
   },
   test: {},
 };
+const env = process.env.APP_ENV || "development";
+const config = mainConfig[env];
 
-export { mainConfig };
+export default config;

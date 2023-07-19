@@ -1,6 +1,5 @@
 import axios from "axios";
-import { mainConfig } from "../../config/config";
-const config = mainConfig[process.env.APP_ENV as string];
+import config from "../../config/config";
 import logger from "../logger/logger";
 const location = async (ip: any) => {
   const API_URL = "https://api.ipgeolocation.io/ipgeo";

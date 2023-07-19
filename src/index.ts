@@ -1,14 +1,10 @@
+import "express-async-errors";
 //Import dotenv and configure it
 import * as dotenv from "dotenv";
 dotenv.config();
-//Import express async errors to handle async errors
-import "express-async-errors";
-
 import express, { Request, Response, NextFunction } from "express";
 export const app = express();
-import { mainConfig } from "./config/config";
-const config = mainConfig[<string>process.env.APP_ENV];
-
+import config from "./config/config";
 //Security Middlewares
 import helmet from "helmet";
 import cors from "cors";
@@ -50,10 +46,8 @@ app.use(
   })
 );
 app.use(compression());
-
 //Initialize session and cookie parser
 app.use(cookieParser(config.JWT_SECRET));
-
 app.use(
   session({
     name: config.SESSION_NAME,
@@ -90,7 +84,7 @@ import log from "./utils/logger/log";
 //Log every requests with status and statusCode
 app.use(log);
 
-import CustomError from "./utils/errors";
+import { BadRequestError } from "./utils/errors";
 //Server Test
 import requestIp from "request-ip";
 app.use(requestIp.mw());
@@ -111,7 +105,7 @@ app.post("/token/refresh", async (req, res) => {
 });
 //Error Test
 app.get("/error", (req, res) => {
-  throw new CustomError.BadRequestError("This is a test error");
+  throw new BadRequestError("This is a test error");
 });
 
 //Documentation

@@ -1,17 +1,12 @@
 import { PassportStatic } from "passport";
-import { mainConfig } from "../../config/config";
-const config = mainConfig[process.env.APP_ENV as string];
+import config from "../../config/config";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as JWTStrategy } from "passport-jwt";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import UserService from "../../services/user.service";
-import saveOnCloudinary from "../helpers/cloudinary";
 import User from "../../models/user.model";
 import { UserDocument, StatusCode, ErrorResponse } from "../../types";
 import { Request } from "express";
-import { v4 as uuidv4 } from "uuid";
-
-import { generateDefaultProfilePic } from "../helpers/defaultProfilePic";
 import _ from "lodash";
 /**
  *
@@ -19,7 +14,6 @@ import _ from "lodash";
  */
 function PassportLoad(passport: PassportStatic) {
   //SIGN UP STRATEGY
-  let errorMessage: ErrorResponse;
   passport.use(
     "signup",
     new LocalStrategy(
@@ -31,50 +25,15 @@ function PassportLoad(passport: PassportStatic) {
       },
       (req: Request, email: string, password: string, done: Function): void => {
         process.nextTick(async () => {
-          //Check if email exists
-          const user = await UserService.getUserCreate(email);
-          if (user) {
-            errorMessage = {
-              message: "User with email exist, please signup with a new mail",
-              code: StatusCode.DUPLICATE_ERROR,
-              statusCode: StatusCode.CONFLICT,
-            };
-            return done(null, false, errorMessage);
-          } else {
-            // if there is no user with that email, create new user
-            var newUser = new User();
-            // set the user's local credentials
-            newUser.name = {
-              first: req.body.firstname,
-              last: req.body.lastname,
-              user: req.body.username,
-            };
-            newUser.email = email;
-            newUser.password = password;
-            newUser.sex = req.body.sex;
-            newUser.nationality = req.body.nationality;
-            newUser.userID = uuidv4().slice(0, 7);
-            newUser.profilePic = req.body.profilePic;
-            let name = req.body.firstname + " " + req.body.lastname;
-            let image = generateDefaultProfilePic(name);
-            const saveImage = await saveOnCloudinary(
-              image,
-              `default_${email}`,
-              "scissors_user"
-            );
-            newUser.defaultPic = saveImage.secure_url;
-            newUser
-              .save()
-              .then((savedUser: UserDocument) => {
-                done(null, savedUser);
-              })
-              .catch((err: Error) => {
-                errorMessage = {
-                  message: `An error occurred saving to the database: ${err}`,
-                  status: "failed",
-                };
-                done(err, false, errorMessage);
-              });
+          try {
+            const newUser = await UserService.createUser({
+              ...req.body,
+              email,
+              password,
+            });
+            done(null, newUser);
+          } catch (error) {
+            done(error); // Pass the error to the passport callback
           }
         });
       }
@@ -107,7 +66,6 @@ function PassportLoad(passport: PassportStatic) {
             errorMessage = {
               message:
                 "Invalid Credentials, please ensure login details are correct",
-              statusCode: StatusCode.BAD_REQUEST,
               code: StatusCode.BADREQUEST_ERROR,
             };
             return done(null, false, errorMessage);
@@ -140,44 +98,12 @@ function PassportLoad(passport: PassportStatic) {
           $or: [{ googleID: profile.id }, { email: profile.email }],
         });
         if (user) {
-          //If there is a user
-          //Return User
           user.googleID = profile.id;
           await user.save();
           return done(null, user);
         } else {
-          // if there is no user with that email
-          // create new user
-          var newUser = new User();
-
-          // set the user's local credentials
-          newUser.googleID = profile.id;
-          newUser.email = profile.email;
-          newUser.name.user = profile.email;
-          newUser.name.first = profile.given_name;
-          newUser.name.last = profile.family_name;
-          newUser.userID = uuidv4().slice(0, 7);
-          newUser.profilePic = profile.photos[0].value;
-          let name = profile.given_name + " " + profile.family_name;
-          let image = generateDefaultProfilePic(name);
-          const saveImage = await saveOnCloudinary(
-            image,
-            `default_${profile.email}`,
-            "scissors_user"
-          );
-          newUser.defaultPic = saveImage.secure_url;
-          newUser
-            .save()
-            .then((savedUser: UserDocument) => {
-              done(null, savedUser);
-            })
-            .catch((err: Error) => {
-              errorMessage = {
-                message: `An error occurred saving to the database: ${err}`,
-                status: "failed",
-              };
-              done(err, false, errorMessage);
-            });
+          const newUser = await UserService.createUser({ ...profile });
+          return done(null, newUser);
         }
       }
     )
@@ -204,9 +130,7 @@ function PassportLoad(passport: PassportStatic) {
       },
       async function (jwt_payload: any, done: Function) {
         //Check if the user saved in token exist in database
-        const user = <UserDocument>await User.findOne({
-          userID: jwt_payload.user.userID,
-        });
+        const user = await UserService.getUserByUserID(jwt_payload.user.userID);
         //If the user does not exist, throw not logged in user
         if (!user) {
           done(null, false);
@@ -217,13 +141,15 @@ function PassportLoad(passport: PassportStatic) {
   );
   passport.serializeUser<any, any>(
     (req: Request, user: any, done: Function): void => {
-      done(null, user.id);
+      done(null, user.userID);
     }
   );
   //Deserialize User
-  passport.deserializeUser<any>((id: number, done: Function): void => {
-    User.findById(id)
-      .then((user) => done(null, user))
+  passport.deserializeUser<any>((userID: string, done: Function): void => {
+    UserService.getUserByUserID(userID)
+      .then((user) => {
+        done(null, user);
+      })
       .catch((err) => done(null, err));
   });
 }

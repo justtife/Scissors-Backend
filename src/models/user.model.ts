@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
-import CustomError from "../utils/errors";
+import { BadRequestError } from "../utils/errors";
 import UserDocument from "../types/user.types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -18,6 +18,7 @@ const UserSchema = new Schema<UserDocument>(
     userID: {
       type: String,
       unique: true,
+      index: true,
     },
     password: String,
     accountStatus: {
@@ -84,17 +85,19 @@ UserSchema.methods.validateResetPasswordToken = async function (
     this.passwordResetExpiry > new Date(Date.now())
   ) {
     this.password = newPassword;
-    this.passwordResetToken = undefined || null;
-    this.passwordResetExpiry = undefined || null;
+    this.passwordResetToken = null;
+    this.passwordResetExpiry = null;
     return await this.save();
   } else {
-    throw new CustomError.BadRequestError("Invalid request token");
+    this.passwordResetExpiry = null;
+    this.passwordResetToken = null;
+    throw new BadRequestError("Invalid request token");
   }
 };
 
 UserSchema.methods.makeRemoveAdmin = async function (role: string) {
   if (this.accountStatus.role === role) {
-    throw new CustomError.BadRequestError(`User exist as ${role} already`);
+    throw new BadRequestError(`User exist as ${role} already`);
   } else {
     this.accountStatus.role = role;
     await this.save();

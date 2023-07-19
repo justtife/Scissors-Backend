@@ -1,9 +1,8 @@
 import Url from "../models/url.model";
 import Stat from "../models/stat.model";
 import { UrlDocument, StatDocument } from "../types";
-import CustomError from "../utils/errors";
+import { NotFoundError } from "../utils/errors";
 import _ from "lodash";
-import NotFoundError from "../utils/errors/notFound";
 export default class URLService {
   static async createShortURL(
     payload: UrlDocument
@@ -20,7 +19,7 @@ export default class URLService {
       short_url: link,
     });
     if (!url) {
-      throw new CustomError.NotFoundError("Short url does not exists");
+      throw new NotFoundError("Short url does not exists");
     }
     return url;
   }
@@ -54,7 +53,7 @@ export default class URLService {
       ]);
 
     if (urls.length < 1) {
-      throw new CustomError.NotFoundError("No URLs were found");
+      throw new NotFoundError("No URLs were found");
     }
 
     const totalClicksValue =
@@ -87,7 +86,7 @@ export default class URLService {
     ]);
 
     if (urls.length < 1) {
-      throw new CustomError.NotFoundError("No URLs were found");
+      throw new NotFoundError("No URLs were found");
     }
 
     return { urls, count };
@@ -125,7 +124,7 @@ export default class URLService {
   static async deleteUrl(link: string): Promise<void> {
     const short_url = await Url.findOneAndDelete({ short_url: link });
     if (!short_url) {
-      throw new CustomError.NotFoundError("Url does not exist");
+      throw new NotFoundError("Url does not exist");
     }
     const stat = await Stat.find({ short_url: link });
     if (stat) {

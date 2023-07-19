@@ -1,4 +1,4 @@
-import { Schema, model} from "mongoose";
+import { Schema, model } from "mongoose";
 import { UrlDocument } from "../types";
 
 const UrlSchema = new Schema<UrlDocument>(
@@ -7,6 +7,7 @@ const UrlSchema = new Schema<UrlDocument>(
     short_url: {
       type: String,
       required: true,
+      index: true,
     },
     custom: { type: Boolean, default: false },
     tag: Array,
@@ -18,6 +19,5 @@ const UrlSchema = new Schema<UrlDocument>(
   },
   { timestamps: true }
 );
-
 
 export default model<UrlDocument>("Url", UrlSchema);

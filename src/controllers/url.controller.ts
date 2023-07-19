@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import CustomError from "../utils/errors";
-import { mainConfig } from "../config/config";
-const config = mainConfig[process.env.APP_ENV as string];
+import { BadRequestError } from "../utils/errors";
+import config from "../config/config";
 import {
   StatusCode,
   UrlDocument,
@@ -28,7 +27,7 @@ export default class UrlController {
     let data;
     const urlExist = await URLService.getUrlByShort(short_url);
     if (urlExist) {
-      throw new CustomError.BadRequestError("Url Custom name already exists");
+      throw new BadRequestError("Url Custom name already exists");
     }
     async function checkLogIn() {
       try {

@@ -1,4 +1,4 @@
-import { Document, Types } from "mongoose";
+import { Document } from "mongoose";
 
 type StatDocument = Document & {
   short_url: string;

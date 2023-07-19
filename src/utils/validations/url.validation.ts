@@ -93,8 +93,6 @@ class ValidateURLs {
         .messages({
           "string.min": "URL should have minimum length of 3",
           "string.max": "URL should not exceed 20 characters",
-          "string.empty":
-            "URL field cannot be empty, please enter a valid custom name",
         })
         .allow(null)
         .default("myshorturl"),

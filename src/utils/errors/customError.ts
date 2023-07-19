@@ -5,6 +5,5 @@ export default class CustomError extends Error {
     public errorCode: number
   ) {
     super(message);
-    this.errorCode = this.statusCode = statusCode;
   }
 }

@@ -1,8 +1,7 @@
 import { app } from "./index";
 import logger from "./utils/logger/logger";
-import { mainConfig } from "./config/config";
 import connectToRedis from "./config/redis";
-const config = mainConfig[process.env.APP_ENV as string];
+import config from "./config/config";
 //Import connectDB
 import connectDB from "./config/db";
 //Start Server

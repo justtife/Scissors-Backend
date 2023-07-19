@@ -1,5 +1,4 @@
-import { mainConfig } from "./config";
-const config = mainConfig[process.env.APP_ENV as string];
+import config from "./config";
 export = {
   service: "gmail",
   auth: {

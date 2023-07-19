@@ -1,6 +1,6 @@
 import multer, { StorageEngine, Multer, FileFilterCallback } from "multer";
-import CustomError from "../errors";
-import { Request } from "express";
+import { Request, Response, NextFunction } from "express";
+import BadRequestError from "../errors/badRequest";
 export class ImageUploader {
   private storage: StorageEngine;
   private fileFilter: (
@@ -8,8 +8,7 @@ export class ImageUploader {
     file: Express.Multer.File,
     cb: FileFilterCallback | Error | any
   ) => void;
-  public upload: Multer;
-
+  private upload: Multer;
   constructor() {
     this.storage = multer.diskStorage({
       filename: (req, file, cb) => {
@@ -23,21 +22,33 @@ export class ImageUploader {
         );
       },
     });
-
     this.fileFilter = (req: Request, file, cb) => {
       if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
         cb(null, true);
       } else {
-        cb(new CustomError.BadRequestError("Unsupported image format"), false);
+        cb(new BadRequestError("Unsupported image format"), false);
       }
     };
-
     this.upload = multer({
       storage: this.storage,
       limits: { fileSize: 1024 * 1024 },
       fileFilter: this.fileFilter,
     });
   }
+  public uploadErrorHandlerMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void {
+    this.upload.single("profilePic")(req, res, (error: any) => {
+      if (error instanceof multer.MulterError) {
+        if (error.code === "LIMIT_FILE_SIZE") {
+          // Handle file size limit exceeded error
+          next(new BadRequestError("File size limit exceeded"));
+          return;
+        }
+      }
+      next(error);
+    });
+  }
 }
-
-// export default new ImageUploader();

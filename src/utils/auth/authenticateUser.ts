@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { StatusCode, ErrorResponse } from "../../types";
 import passport from "passport";
 import { UserDocument } from "../../types";
-import CustomError from "../errors";
+import { UnAuthorizedError } from "../errors";
 class Auth {
   static async authUser(req: Request, res: Response, next: NextFunction) {
     passport.authenticate("jwt", function (err: Error, user: any, info: any) {
@@ -58,7 +58,7 @@ class Auth {
     )
       return;
     if (requestUser.userID === resourceUserId.toString()) return;
-    throw new CustomError.UnAuthorizedError(
+    throw new UnAuthorizedError(
       "You are unauthorized to carry out this operation"
     );
   }
@@ -70,9 +70,7 @@ class Auth {
         !user.accountStatus ||
         !roles.includes(user.accountStatus.role)
       ) {
-        throw new CustomError.UnAuthorizedError(
-          "Unauthorized to access this route"
-        );
+        throw new UnAuthorizedError("Unauthorized to access this route");
       }
       next();
     };

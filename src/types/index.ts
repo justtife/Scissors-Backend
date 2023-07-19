@@ -7,6 +7,7 @@ import { AttachCookiesToResponse, User } from "./attachCookiesToRes.interface";
 import TokenArgs from "./token.interface";
 import TokenDocument from "./token.types";
 import StatDocument from "./stat.types";
+import UserQuery from "./userQuery.interface";
 export {
   ErrorResponse,
   StatusCode,
@@ -18,4 +19,5 @@ export {
   TokenArgs,
   TokenDocument,
   StatDocument,
+  UserQuery,
 };

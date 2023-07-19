@@ -1,22 +1,30 @@
 import { Request, Response, NextFunction } from "express";
 import { token as createToken } from "../utils/auth/createToken";
-import { mainConfig } from "../config/config";
 import Auth from "../utils/auth/authenticateUser";
-import { deleteImage } from "../utils/helpers/cloudinary";
 import { v4 as uuidv4 } from "uuid";
-const config = mainConfig[process.env.APP_ENV as string];
-import {
-  StatusCode,
-  UserDocument,
-  SuccessResponse,
-  ErrorResponse,
-} from "../types";
+import { successResponse, errorResponse } from "../middlewares/outputHandler";
+import config from "../config/config";
+import { StatusCode, UserDocument, SuccessResponse, UserQuery } from "../types";
 import passport from "passport";
-import CustomError from "../utils/errors";
+import {
+  BadRequestError,
+  DuplicateError,
+  NotFoundError,
+} from "../utils/errors";
 import UserService from "../services/user.service";
 import EmailSender from "../utils/mails/mailSetUp";
 import saveOnCloudinary from "../utils/helpers/cloudinary";
 const _ = require("lodash");
+const omitData = [
+  "password",
+  "accountStatus.isActive",
+  "googleID",
+  "nationality",
+  "passwordResetToken",
+  "passwordResetExpiry",
+  "updatedAt",
+  "__v",
+];
 export class UserController {
   static async uploadImage(req: Request, res: Response) {
     const file = req!.file!.path;
@@ -25,11 +33,11 @@ export class UserController {
       `profilePic_${uuidv4().slice(0, 10)}`,
       "scissors_user"
     );
-    let output: SuccessResponse = {
+    successResponse({
+      res,
       message: "Image uploaded successfully",
       data: result.public_id + " " + result.url,
-    };
-    res.status(200).json(output);
+    });
   }
   static async createUser(req: Request, res: Response, next: NextFunction) {
     passport.authenticate(
@@ -40,12 +48,12 @@ export class UserController {
         }
         //If any Error, info about the Error is generated
         if (info) {
-          let infoMessage: ErrorResponse = {
-            status: "failed",
+          errorResponse({
+            res,
             message: info.message,
             code: info.code || StatusCode.BADREQUEST_ERROR,
-          };
-          return res.status(info.statusCode).json(infoMessage);
+            statusCode: info.statusCode,
+          });
         }
         //Log user in after signing up
         req.logIn(user, async (err) => {
@@ -53,22 +61,13 @@ export class UserController {
             return next(err);
           }
           let token = await createToken({ req, res, user });
-          const output: SuccessResponse = {
-            status: "success",
+          successResponse({
+            res,
             message: "Signup successful",
+            data: _.omit(Object.values(user)[1], omitData),
             token,
-            data: _.omit(Object.values(user)[1], [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "nationality",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ]),
-          };
-          return res.status(StatusCode.CREATED).json(output);
+            statusCode: StatusCode.CREATED,
+          });
         });
       }
     )(req, res, next);
@@ -80,77 +79,52 @@ export class UserController {
         if (err) {
           return next(err);
         }
-        if (info || !user) {
-          let infoMessage: ErrorResponse = {
+        if (info) {
+          errorResponse({
+            res,
             message: info.message,
-            code: StatusCode.BADREQUEST_ERROR,
-          };
-          return res.status(info.statusCode).json(infoMessage);
+            code: info.code || StatusCode.BADREQUEST_ERROR,
+            statusCode: info.statusCode,
+          });
         }
         req.logIn(user, async (err) => {
           if (err) {
             return next(err);
           }
           let token = await createToken({ req, res, user });
-          const output: SuccessResponse = {
-            status: "success",
+          successResponse({
+            res,
             message: "Login successful",
+            data: _.omit(Object.values(user)[2], omitData),
             token,
-            data: _.omit(Object.values(user)[2], [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "nationality",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ]),
-          };
-          return res.status(StatusCode.OK).json(output);
+          });
         });
       }
     )(req, res, next);
   }
   static async getAllUsers(req: Request, res: Response) {
-    const users = await UserService.getAllUsers();
+    const { search, role, is_active } = req.query as UserQuery;
+    const page = Number(req.query.skip) || 1;
+    const skip = (page - 1) * 10;
+    const users = await UserService.getAllUsers(
+      { search, role, is_active },
+      skip
+    );
     const output: SuccessResponse = {
       message: "All users",
-      data:
-        users !== null
-          ? _.omit(Object.values(users), [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "nationality",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ])
-          : undefined,
+      //@ts-ignore
+      data: users,
     };
     res.status(StatusCode.OK).json(output);
   }
   static async getSingleUser(req: Request, res: Response) {
     const user = await UserService.getUserByUserID(req.params.userID);
     await Auth.checkPermission(req.user as UserDocument, user!.userID);
-    const output: SuccessResponse = {
+    successResponse({
+      res,
       message: `User Profile`,
-      data:
-        user !== null
-          ? _.omit(Object.values(user)[2], [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ])
-          : undefined,
-    };
-    res.status(StatusCode.OK).json(output);
+      data: _.omit(Object.values(user as UserDocument)[2], omitData),
+    });
   }
   static async updateUser(req: Request, res: Response) {
     const user = await UserService.getUserByUserID(req.params.userID);
@@ -164,28 +138,16 @@ export class UserController {
       user!.profilePic = req.body.profilePic;
     }
     await user?.save();
-    const output: SuccessResponse = {
-      message: `User profile successfully updated`,
-      data:
-        user !== null
-          ? _.omit(Object.values(user)[2], [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "nationality",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ])
-          : undefined,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({
+      res,
+      message: "User profile successfully updated",
+      data: _.omit(Object.values(user as UserDocument)[2], omitData),
+    });
   }
   static async changeEmail(req: Request, res: Response) {
     const user = await UserService.getUserByEmail(req.body.oldEmail);
     if (!user) {
-      throw new CustomError.NotFoundError(
+      throw new NotFoundError(
         `User with email:${req.body.oldEmail} does not exist`
       );
     }
@@ -197,7 +159,7 @@ export class UserController {
         req.body.newEmail
       );
       if (checkMailExists) {
-        throw new CustomError.BadRequestError(
+        throw new DuplicateError(
           `User with email ${req.body.newEmail} already exists, please try again with another email`
         );
       } else {
@@ -205,28 +167,16 @@ export class UserController {
       }
     }
     await user?.save();
-    const output: SuccessResponse = {
-      message: `User Email updated successfully`,
-      data:
-        user !== null
-          ? _.omit(Object.values(user)[2], [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "nationality",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ])
-          : undefined,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({
+      res,
+      message: "User Email updated successfully",
+      data: _.omit(Object.values(user)[2], omitData),
+    });
   }
   static async sendResetPasswordMail(req: Request, res: Response) {
     const user = await UserService.getUserByEmail(req.body.email);
     if (!user) {
-      throw new CustomError.NotFoundError(
+      throw new NotFoundError(
         `User with email:${req.body.email} does not exist`
       );
     }
@@ -237,23 +187,10 @@ export class UserController {
       user!.email,
       `${config.APP_LINK}/user/verify-password?passwordToken=${resetPasswordToken}`
     );
-    const output: SuccessResponse = {
-      message: `Reset Password mail has been sent to your mail`,
-      data:
-        user !== null
-          ? _.omit(Object.values(user)[2], [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "nationality",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ])
-          : undefined,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({
+      res,
+      message: "Reset Password mail has been sent to your mail",
+    });
   }
   static async changePassword(req: Request, res: Response) {
     const user = await UserService.getUserByUserID(req.params.userID);
@@ -262,29 +199,11 @@ export class UserController {
       req.body.oldPassword
     );
     if (!validateOldPassword) {
-      throw new CustomError.BadRequestError(
-        "Old password Incorrect, enter a correct password"
-      );
+      throw new BadRequestError("Password Incorrect, enter a correct password");
     }
     user!.password = req.body.newPassword;
     await user?.save();
-    const output: SuccessResponse = {
-      message: `User password successfully updated`,
-      data:
-        user !== null
-          ? _.omit(Object.values(user)[2], [
-              "password",
-              "accountStatus.isActive",
-              "googleID",
-              "nationality",
-              "passwordResetToken",
-              "passwordResetExpiry",
-              "updatedAt",
-              "__v",
-            ])
-          : undefined,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "User password successfully updated" });
   }
   static async validateResetPassword(
     req: Request,
@@ -298,10 +217,7 @@ export class UserController {
       req.query.passwordToken as string,
       req.body.newPassword
     );
-    const output: SuccessResponse = {
-      message: "Password has been changed successfully",
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "Password has been changed successfully" });
   }
   static async logout(req: Request, res: Response, next: NextFunction) {
     await UserService.logUserOut(req.params.userID);
@@ -315,24 +231,21 @@ export class UserController {
       httpOnly: true,
       expires: new Date(Date.now()),
     });
-    const output: SuccessResponse = {
-      message: `User Logged out`,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "User Logged out" });
   }
   static async deleteAccount(req: Request, res: Response, next: NextFunction) {
     const user = await UserService.getUserByUserID(req.params.userID);
     await Auth.checkPermission(req.user as UserDocument, user!.userID);
     const validateOldPassword = await user!.isValidPassword(req.body.password);
     if (!validateOldPassword) {
-      throw new CustomError.BadRequestError(
+      throw new BadRequestError(
         "Password Incorrect, enter the correct password"
       );
     }
     if (user?.profilePic) {
-      await deleteImage(user.profilePic.split(" ")[0]);
+      // await deleteImage(user.profilePic.split(" ")[0]);
     }
-    await deleteImage(<string>user!.defaultPic);
+    // await deleteImage(<string>user!.defaultPic);
     await UserService.logUserOut(user!.userID);
     res.cookie("accessToken", "account deleted", {
       httpOnly: true,
@@ -344,9 +257,6 @@ export class UserController {
     });
     await UserService.deleteUser(user!.userID);
     //Send Mail
-    const output: SuccessResponse = {
-      message: "User Account successfully deleted",
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "User Account successfully deleted" });
   }
 }

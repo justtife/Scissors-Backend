@@ -8,6 +8,6 @@ export default class BadRequestError extends CustomError {
     readonly errorCode: number = StatusCode.BADREQUEST_ERROR
   ) {
     super(message, statusCode, errorCode);
-    this.message = message;
+    this.name = name;
   }
 }
