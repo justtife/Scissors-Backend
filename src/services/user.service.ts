@@ -1,14 +1,9 @@
-import User from "../models/user.model";
+import { User, Token } from "../models";
 import { UserDocument, UserQuery } from "../types";
-import {
-  BadRequestError,
-  DuplicateError,
-  NotFoundError,
-} from "../utils/errors";
-import tokenModel from "../models/token.model";
+import { DuplicateError, NotFoundError } from "../utils/errors";
+import { generateDefaultProfilePic, CloudinaryService } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
-import { generateDefaultProfilePic } from "../utils/helpers/defaultProfilePic";
-import saveOnCloudinary from "../utils/helpers/cloudinary";
+const cloudinary = new CloudinaryService();
 export default class UserService {
   static async createUser(userDetail: any): Promise<UserDocument | any> {
     const user = await UserService.getUserByEmail(userDetail.email);
@@ -35,7 +30,7 @@ export default class UserService {
       " " +
       (userDetail.lastname || userDetail.family_name);
     let image = generateDefaultProfilePic(name);
-    const saveImage = await saveOnCloudinary(
+    const saveImage = await cloudinary.saveImage(
       image,
       `default_${userDetail.email}`,
       "scissors_user"
@@ -92,16 +87,12 @@ export default class UserService {
     }
     return user;
   }
-
   static async getUserByEmail(email: string): Promise<UserDocument | null> {
     const user = await User.findOne({ email });
     return user;
   }
   static async logUserOut(userID: string): Promise<void> {
-    const token = await tokenModel.findOneAndDelete({ user: userID });
-    if (!token) {
-      throw new BadRequestError("No device logged in");
-    }
+    await Token.findOneAndDelete({ user: userID });
     return;
   }
   static async validateToken(

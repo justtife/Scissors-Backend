@@ -7,7 +7,7 @@ import crypto from "crypto-js";
  * @param tokenArg
  * @returns accessToken
  */
-export const token = async (tokenArg: TokenArgs) => {
+const token = async (tokenArg: TokenArgs) => {
   let { req, res, user } = tokenArg;
   //Create user payload
   const userToken = tokenUser(user);
@@ -42,3 +42,4 @@ export const token = async (tokenArg: TokenArgs) => {
     });
   }
 };
+export default token;

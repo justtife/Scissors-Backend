@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { token as createToken } from "../utils/auth/createToken";
-import Auth from "../utils/auth/authenticateUser";
+import { createToken, Auth } from "../utils/auth";
 import { v4 as uuidv4 } from "uuid";
 import { successResponse, errorResponse } from "../middlewares/outputHandler";
 import config from "../config/config";
@@ -13,7 +12,7 @@ import {
 } from "../utils/errors";
 import UserService from "../services/user.service";
 import EmailSender from "../utils/mails/mailSetUp";
-import saveOnCloudinary from "../utils/helpers/cloudinary";
+import { CloudinaryService } from "../utils/helpers";
 const _ = require("lodash");
 const omitData = [
   "password",
@@ -25,10 +24,11 @@ const omitData = [
   "updatedAt",
   "__v",
 ];
+const cloudinary = new CloudinaryService();
 export class UserController {
   static async uploadImage(req: Request, res: Response) {
     const file = req!.file!.path;
-    const result = await saveOnCloudinary(
+    const result = await cloudinary.saveImage(
       file,
       `profilePic_${uuidv4().slice(0, 10)}`,
       "scissors_user"
@@ -39,6 +39,29 @@ export class UserController {
       data: result.public_id + " " + result.url,
     });
   }
+  static async googleLogin(req: Request, res: Response, next: NextFunction) {
+    passport.authenticate("google", {
+      failureRedirect: "/api/v1/user/auth/google",
+    })(req, res, async (err: any) => {
+      if (err) {
+        return next(err);
+      }
+      let user: any = req.user;
+      req.logIn(user, async (err) => {
+        if (err) {
+          return next(err);
+        }
+        let token = await createToken({ req, res, user });
+        successResponse({
+          res,
+          message: "Signin successful",
+          data: _.omit(Object.values(user)[2], omitData),
+          token,
+        });
+      });
+    });
+  }
+
   static async createUser(req: Request, res: Response, next: NextFunction) {
     passport.authenticate(
       "signup",

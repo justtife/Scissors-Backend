@@ -2,7 +2,7 @@ import config from "../../config/config";
 import { verify } from "jsonwebtoken";
 import Token from "../../models/token.model";
 import User from "../../models/user.model";
-import { token as createToken } from "./createToken";
+import { createToken } from "../auth";
 import { UserDocument, AttachCookiesToResponse } from "../../types";
 import { UnAuthorizedError } from "../errors";
 import { Request, Response } from "express";
@@ -28,5 +28,4 @@ async function refreshToken(req: Request, res: Response) {
   await createToken({ req, res, user });
   res.status(200).json();
 }
-
 export default refreshToken;

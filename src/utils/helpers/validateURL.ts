@@ -1,6 +1,6 @@
 import dns from "dns";
 import { BadRequestError } from "../errors";
-export async function validateURL(url: string) {
+export default async function validateURL(url: string) {
   const domain = new URL(url).hostname;
   await dns.promises
     .lookup(domain)

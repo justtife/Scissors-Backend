@@ -1,20 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import { BadRequestError } from "../utils/errors";
 import config from "../config/config";
+import { UrlDocument, SuccessResponse, UserDocument } from "../types";
+import { Auth } from "../utils/auth";
 import {
-  StatusCode,
-  UrlDocument,
-  SuccessResponse,
-  UserDocument,
-} from "../types";
-import Auth from "../utils/auth/authenticateUser";
-import { validateURL } from "../utils/helpers/validateURL";
-import URLService from "../services/url.service";
-import generateQRCode from "../utils/helpers/createQrCode";
+  validateURL,
+  generateQRCode,
+  location,
+  CloudinaryService,
+} from "../utils/helpers";
+import { UserService, URLService } from "../services";
 import { v4 as uuidv4 } from "uuid";
-import location from "../utils/helpers/location";
-import UserService from "../services/user.service";
+import { successResponse } from "../middlewares/outputHandler";
 const _ = require("lodash");
+const cloudinary = new CloudinaryService();
 export default class UrlController {
   static async createShortLink(
     req: Request,
@@ -23,24 +22,17 @@ export default class UrlController {
   ) {
     const { original_url, tag, description, name, short_url } = req.body;
     await validateURL(original_url);
-    let output: SuccessResponse;
+    let output: SuccessResponse = {
+      message: "Short url created successfully",
+    };
     let data;
     const urlExist = await URLService.getUrlByShort(short_url);
     if (urlExist) {
       throw new BadRequestError("Url Custom name already exists");
     }
-    async function checkLogIn() {
-      try {
-        const isAuthenticated = await Auth.authenticateJwt(req, res, next);
-        return isAuthenticated;
-      } catch (error) {
-        console.error(error);
-        return false;
-      }
-    }
-    checkLogIn().then(async (response) => {
+    Auth.checkLogIn(req, res, next).then(async (response: any) => {
       if (response) {
-        let qrcode, short, custom;
+        let qrcode, short, custom, result: any;
         if (short_url) {
           short = short_url;
           custom = true;
@@ -49,9 +41,11 @@ export default class UrlController {
           custom = false;
         }
         if (req.body.makeQR === true) {
-          qrcode = await generateQRCode(
-            `${config.FRONTEND_LINK}/${short}`,
-            short
+          qrcode = await generateQRCode(`${config.FRONTEND_LINK}/${short}`);
+          result = await cloudinary.saveImage(
+            qrcode,
+            `${short_url}_code`,
+            "scissors_qrcode"
           );
         }
         let urlPayload = {
@@ -60,20 +54,17 @@ export default class UrlController {
           description,
           name,
           short_url: short,
-          qrcode,
+          qrcode: result!.secure_url as any,
           custom,
           //@ts-ignore
           user: req.user!.userID,
         };
         data = await URLService.createShortURL(urlPayload as any);
-        output = {
-          message: "Short url created successfully",
-          data:
-            data !== null
-              ? _.omit(Object.values(data)[1], ["user", "updatedAt", "__v"])
-              : undefined,
-        };
-        return res.status(StatusCode.OK).json(output);
+        output.data = _.omit(Object.values(data)[1], [
+          "user",
+          "updatedAt",
+          "__v",
+        ]);
       } else {
         let urlPayload;
         if (!req.body.short_url) {
@@ -82,12 +73,13 @@ export default class UrlController {
           urlPayload = { ...req.body, custom: true };
         }
         data = (await URLService.createShortURL(urlPayload)) as UrlDocument;
-        output = {
-          message: "Short url created successfully",
-          data: { short_url: data.short_url },
+        output.data = {
+          short_url: data.short_url,
+          original_url: data.original_url,
+          name: data.name,
         };
-        res.status(StatusCode.OK).json(output);
       }
+      successResponse({ res, ...output });
     });
   }
   static async getURL(req: Request, res: Response) {
@@ -104,31 +96,38 @@ export default class UrlController {
     };
     await URLService.createStat(statPayload);
     original_url?.save();
-    res.status(200).json(original_url?.original_url as string);
+    successResponse({
+      res,
+      message: "Original URL",
+      data: original_url?.original_url as string,
+    });
   }
   static async createQRCode(req: Request, res: Response) {
     const { short_url } = req.params;
     const original_url = await URLService.getUrl(short_url);
-    let output: SuccessResponse;
-    if (original_url!.qrcode) {
-      output = {
-        message: "QR Code generated already",
-        data: original_url!.qrcode,
-      };
-      return res.status(StatusCode.OK).json(output);
-    }
-    const createQRCode = await generateQRCode(
-      `${config.FRONTEND_LINK}/${short_url}`,
-      short_url
-    );
-    await URLService.updateUrl(short_url, {
-      qrcode: createQRCode,
-    });
-    output = {
-      message: "QR Code generated succesfully",
-      data: createQRCode,
+    let output: SuccessResponse = {
+      message: "QR Code generated already",
     };
-    res.status(StatusCode.OK).json(output);
+    if (original_url!.qrcode) {
+      output.data = original_url!.qrcode;
+    } else {
+      const qrcode = await generateQRCode(
+        `${config.FRONTEND_LINK}/${short_url}`
+      );
+      let result = await cloudinary.saveImage(
+        qrcode,
+        `${short_url}_code`,
+        "scissors_qrcode"
+      );
+      await URLService.updateUrl(short_url, {
+        qrcode: result!.secure_url,
+      });
+      output.data = result!.secure_url;
+    }
+    successResponse({
+      res,
+      ...output,
+    });
   }
   static async getUsersUrl(req: Request, res: Response) {
     const page = Number(req.query.skip) || 1;
@@ -136,11 +135,7 @@ export default class UrlController {
     const url = await URLService.getUserUrl(req.params.userID, skip);
     const user = await UserService.getUserByUserID(req.params.userID);
     await Auth.checkPermission(req.user as UserDocument, user!.userID);
-    const output: SuccessResponse = {
-      message: `User's URLs`,
-      data: url as any,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "User's URLs", data: url });
   }
   static async getUsersQrCode(req: Request, res: Response) {
     const page = Number(req.query.skip) || 1;
@@ -148,28 +143,19 @@ export default class UrlController {
     const url = await URLService.getUsersQrCodes(req.params.userID, skip);
     const user = await UserService.getUserByUserID(req.params.userID);
     await Auth.checkPermission(req.user as UserDocument, user!.userID);
-    const output: SuccessResponse = {
-      message: `User's Qr Codes`,
-      data: url as any,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "User's Qr Codes", data: url });
   }
   static async getStat(req: Request, res: Response) {
     const page = Number(req.query.skip) || 1;
     const skip = (page - 1) * 5;
     const sort = req.query.search !== undefined ? String(req.query.search) : "";
     const stat = await URLService.getStat(req.params.userID, skip, sort);
-    const output: SuccessResponse = {
-      message: "Short URL stat",
-      data: stat as any,
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "Short URL stat", data: stat });
   }
   static async deleteShortLink(req: Request, res: Response) {
+    const user = await UserService.getUserByUserID(req.params.userID);
+    await Auth.checkPermission(req.user as UserDocument, user!.userID);
     await URLService.deleteUrl(req.params.short_url);
-    const output: SuccessResponse = {
-      message: "Url Successfully Deleted",
-    };
-    res.status(StatusCode.OK).json(output);
+    successResponse({ res, message: "Url Successfully Deleted" });
   }
 }

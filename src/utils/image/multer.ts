@@ -1,6 +1,7 @@
 import multer, { StorageEngine, Multer, FileFilterCallback } from "multer";
 import { Request, Response, NextFunction } from "express";
 import BadRequestError from "../errors/badRequest";
+import UnsupportedMediaTypeError from "../errors/unSupportedMediaType";
 export class ImageUploader {
   private storage: StorageEngine;
   private fileFilter: (
@@ -26,7 +27,7 @@ export class ImageUploader {
       if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
         cb(null, true);
       } else {
-        cb(new BadRequestError("Unsupported image format"), false);
+        cb(new UnsupportedMediaTypeError("Unsupported image format"), false);
       }
     };
     this.upload = multer({

@@ -1,23 +1,11 @@
-import SuccessResponse from "./successResponse";
-import ErrorResponse from "./errorResponse";
-import StatusCode from "./statusCodes";
-import UserDocument from "./user.types";
-import UrlDocument from "./url.types";
+export { default as SuccessResponse } from "./successResponse";
+export { default as ErrorResponse } from "./errorResponse";
+export { default as StatusCode } from "./statusCodes";
+export { default as UserDocument } from "./user.types";
+export { default as UrlDocument } from "./url.types";
 import { AttachCookiesToResponse, User } from "./attachCookiesToRes.interface";
-import TokenArgs from "./token.interface";
-import TokenDocument from "./token.types";
-import StatDocument from "./stat.types";
-import UserQuery from "./userQuery.interface";
-export {
-  ErrorResponse,
-  StatusCode,
-  SuccessResponse,
-  UserDocument,
-  UrlDocument,
-  AttachCookiesToResponse,
-  User,
-  TokenArgs,
-  TokenDocument,
-  StatDocument,
-  UserQuery,
-};
+export { default as TokenArgs } from "./token.interface";
+export { default as TokenDocument } from "./token.types";
+export { default as StatDocument } from "./stat.types";
+export { default as UserQuery } from "./userQuery.interface";
+export { AttachCookiesToResponse, User };

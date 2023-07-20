@@ -1,50 +1,40 @@
 import { Request, Response, NextFunction } from "express";
 import Joi, { ObjectSchema } from "joi";
 import { BadRequestError } from "../errors";
-
 class ValidateUsers {
   //Schemas
   static createUserSchema1 = Joi.object({
     body: Joi.object({
-      firstname: Joi.string().min(3).max(50).trim().default("John").required(),
-      lastname: Joi.string().min(3).max(50).required().trim().default("doe"),
-      username: Joi.string()
-        .min(3)
-        .max(50)
-        .required()
-        .trim()
-        .default("John Doe"),
-      email: Joi.string()
-        .trim()
-        .email()
-        .required()
-        .default("johndoe@email.com"),
+      firstname: Joi.string().min(3).max(50).default("John").required(),
+      lastname: Joi.string().min(3).max(50).required().default("doe"),
+      username: Joi.string().min(3).max(50).required().default("John Doe"),
+      email: Joi.string().email().required().default("johndoe@email.com"),
       sex: Joi.string().valid("male", "female", "others"),
       profilePic: Joi.string(),
       nationality: Joi.string().min(3).max(30).default("Nigerian"),
       password: Joi.string()
         .min(6)
-        .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
         .default("Passcode"),
       repeat_password: Joi.string()
         .required()
-        .trim()
         .equal(Joi.ref("password"))
-        .default("Passcode"),
+        .default("Passcode")
+        .messages({
+          "any.only": "Passwords do not match",
+        }),
     }).with("password", "repeat_password"),
     query: Joi.object({}),
     params: Joi.object({}),
   });
   static logUserInSchema1 = Joi.object({
     body: Joi.object({
-      user: Joi.alternatives([Joi.string().trim(), Joi.string().email().trim()])
+      user: Joi.alternatives([Joi.string(), Joi.string().email()])
         .default("johndoe@email.com")
         .required(),
       password: Joi.string()
         .min(6)
-        .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
         .default("Passcode"),
@@ -56,16 +46,15 @@ class ValidateUsers {
     body: Joi.object({}),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().default("432ba85"),
     }),
   });
   static getAllUsersSchema1 = Joi.object({
     body: Joi.object({}),
     query: Joi.object({
-      search: Joi.alternatives([
-        Joi.string().trim(),
-        Joi.string().email().trim(),
-      ]).default("johndoe@email.com"),
+      search: Joi.alternatives([Joi.string(), Joi.string().email()]).default(
+        "johndoe@email.com"
+      ),
       skip: Joi.string().default("1"),
       role: Joi.string().valid("user", "admin", "owner").default("user"),
       is_active: Joi.boolean(),
@@ -74,49 +63,35 @@ class ValidateUsers {
   });
   static updateUserSchema1 = Joi.object({
     body: Joi.object({
-      firstname: Joi.string().min(3).max(50).required().trim().default("Jane"),
+      firstname: Joi.string().min(3).max(50).required().default("Jane"),
       profilePic: Joi.string(),
-      lastname: Joi.string().min(3).max(50).required().trim().default("Smith"),
-      username: Joi.string()
-        .min(3)
-        .max(50)
-        .required()
-        .trim()
-        .default("Jane Smith"),
+      lastname: Joi.string().min(3).max(50).required().default("Smith"),
+      username: Joi.string().min(3).max(50).required().default("Jane Smith"),
       sex: Joi.string().valid("male", "female", "others").default("female"),
       nationality: Joi.string().min(3).max(30).default("British"),
     }),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().default("432ba85"),
     }),
   });
   static deleteUserAccountSchema1 = Joi.object({
     body: Joi.object({
       password: Joi.string()
         .min(6)
-        .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
         .default("Passcode"),
     }),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().default("432ba85"),
     }),
   });
   static changeEmailSchema1 = Joi.object({
     body: Joi.object({
-      oldEmail: Joi.string()
-        .email()
-        .trim()
-        .required()
-        .default("johndoe@email.com"),
-      newEmail: Joi.string()
-        .email()
-        .trim()
-        .required()
-        .default("janesmith@email.com"),
+      oldEmail: Joi.string().email().required().default("johndoe@email.com"),
+      newEmail: Joi.string().email().required().default("janesmith@email.com"),
     }),
     query: Joi.object({}),
     params: Joi.object({}),
@@ -125,29 +100,23 @@ class ValidateUsers {
     body: Joi.object({
       oldPassword: Joi.string()
         .min(6)
-        .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
         .default("Passcode"),
       newPassword: Joi.string()
         .min(6)
-        .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
         .default("Password1234"),
     }),
     query: Joi.object({}),
     params: Joi.object({
-      userID: Joi.string().min(7).max(7).required().trim().default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().default("432ba85"),
     }),
   });
   static sendResetPasswordEmailSchema1 = Joi.object({
     body: Joi.object({
-      email: Joi.string()
-        .email()
-        .trim()
-        .required()
-        .default("janesmith@email.com"),
+      email: Joi.string().email().required().default("janesmith@email.com"),
     }),
     query: Joi.object({}),
     params: Joi.object({}),
@@ -156,13 +125,11 @@ class ValidateUsers {
     body: Joi.object({
       newPassword: Joi.string()
         .min(6)
-        .trim()
         .pattern(new RegExp(/^[a-zA-Z0-9!@#$%&*]{3,25}$/))
         .required()
         .default("MyPassword1234"),
       repeat_password: Joi.string()
         .required()
-        .trim()
         .equal(Joi.ref("newPassword"))
         .default("MyPassword1234"),
     }).with("newPassword", "repeat_password"),
@@ -171,7 +138,6 @@ class ValidateUsers {
         .min(15)
         .max(15)
         .required()
-        .trim()
         .default("b0243e59-ed5d-4"),
     }),
     params: Joi.object({}),
@@ -222,7 +188,6 @@ class ValidateUsers {
     const verifyPasswordSchema = ValidateUsers.verifyPasswordSchema1;
     return ValidateUsers.validate(verifyPasswordSchema)(req, res, next);
   }
-
   private static validate(schema: ObjectSchema) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {

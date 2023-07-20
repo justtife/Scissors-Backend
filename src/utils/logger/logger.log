@@ -91,3 +91,38 @@
 [error] 23-07-19 03:05:32 Scissors-Logger: {"message":"[object Object], BadRequestError: No device logged in","metadata":{}}
 [error] 23-07-19 03:06:23 Scissors-Logger: {"message":"[object Object], BadRequestError: Password Incorrect, enter the correct password","metadata":{}}
 [error] 23-07-19 03:06:35 Scissors-Logger: {"message":"[object Object], BadRequestError: password length must be at least 6 characters long","metadata":{}}
+[error] 23-07-19 12:18:54 Scissors-Logger: {"message":"[object Object], BadRequestError: No device logged in","metadata":{}}
+[error] 23-07-19 12:19:00 Scissors-Logger: {"message":"[object Object], BadRequestError: No device logged in","metadata":{}}
+[error] 23-07-19 12:19:20 Scissors-Logger: {"message":"[object Object], BadRequestError: No device logged in","metadata":{}}
+[error] 23-07-19 15:05:47 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading '0')","metadata":{}}
+[error] 23-07-19 15:07:27 Scissors-Logger: {"message":"[object Object], BadRequestError: firstname must be a string","metadata":{}}
+[error] 23-07-19 15:07:48 Scissors-Logger: {"message":"[object Object], TypeError: Cannot read properties of undefined (reading '0')","metadata":{}}
+[error] 23-07-19 15:11:55 Scissors-Logger: {"message":"[object Object], BadRequestError: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-19 15:12:29 Scissors-Logger: {"message":"[object Object], BadRequestError: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-19 15:15:04 Scissors-Logger: {"message":"[object Object], BadRequestError: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-19 15:15:21 Scissors-Logger: {"message":"[object Object], BadRequestError: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-19 15:15:30 Scissors-Logger: {"message":"[object Object], BadRequestError: Url should start with https:// or http://","metadata":{}}
+[error] 23-07-19 15:15:55 Scissors-Logger: {"message":"[object Object], BadRequestError: lastname length must be at least 3 characters long","metadata":{}}
+[error] 23-07-19 15:16:04 Scissors-Logger: {"message":"[object Object], BadRequestError: email must be a valid email","metadata":{}}
+[error] 23-07-19 15:16:13 Scissors-Logger: {"message":"[object Object], BadRequestError: repeat_password must be [ref:password]","metadata":{}}
+[error] 23-07-19 15:20:38 Scissors-Logger: {"message":"[object Object], BadRequestError: Passwords do not match","metadata":{}}
+[error] 23-07-19 15:20:53 Scissors-Logger: {"message":"[object Object], SyntaxError: Unexpected token / in JSON at position 156","metadata":{}}
+[error] 23-07-19 15:21:00 Scissors-Logger: {"message":"[object Object], SyntaxError: Unexpected token / in JSON at position 155","metadata":{}}
+[error] 23-07-19 15:21:15 Scissors-Logger: {"message":"[object Object], BadRequestError: repeat_password is required","metadata":{}}
+[error] 23-07-19 15:21:37 Scissors-Logger: {"message":"[object Object], Error: Failed to serialize user into session","metadata":{}}
+[error] 23-07-19 15:26:44 Scissors-Logger: {"message":"[object Object], Error: Failed to serialize user into session","metadata":{}}
+[error] 23-07-19 15:26:53 Scissors-Logger: {"message":"[object Object], DuplicateError: User with email exist, please signup with a new mail","metadata":{}}
+[error] 23-07-19 15:28:06 Scissors-Logger: {"message":"[object Object], BadGatewayError: The server encountered an issue while trying to fulfill the request. Please try again later or contact the administrator for assistance.","metadata":{}}
+[error] 23-07-19 15:28:06 Scissors-Logger: {"message":"POST /api/v1/user/signup 502 Bad Gateway","metadata":{}}
+[error] 23-07-19 15:29:09 Scissors-Logger: {"message":"[object Object], BadGatewayError: The server encountered an issue while trying to fulfill the request. Please try again later or contact the administrator for assistance.","metadata":{}}
+[error] 23-07-19 15:29:10 Scissors-Logger: {"message":"POST /api/v1/user/signup 502 Bad Gateway","metadata":{}}
+[error] 23-07-19 15:30:06 Scissors-Logger: {"message":"[object Object], BadGatewayError: CLoudThe server encountered an issue while trying to fulfill the request. Please try again later or contact the administrator for assistance.","metadata":{}}
+[error] 23-07-19 15:30:06 Scissors-Logger: {"message":"POST /api/v1/user/signup 502 Bad Gateway","metadata":{}}
+[error] 23-07-19 15:35:46 Scissors-Logger: {"message":"[object Object], BadRequestError: email must be a valid email","metadata":{}}
+[error] 23-07-19 15:35:59 Scissors-Logger: {"message":"[object Object], BadRequestError: email must be a valid email","metadata":{}}
+[error] 23-07-19 15:39:14 Scissors-Logger: {"message":"[object Object], NotFoundError: Short url does not exists","metadata":{}}
+[error] 23-07-19 15:39:17 Scissors-Logger: {"message":"[object Object], NotFoundError: Short url does not exists","metadata":{}}
+[error] 23-07-19 15:43:34 Scissors-Logger: {"message":"[object Object], NotFoundError: Route /favicon.ico does not exist","metadata":{}}
+[error] 23-07-19 15:55:54 Scissors-Logger: {"message":"[object Object], NotFoundError: Route /doc does not exist","metadata":{}}
+[error] 23-07-19 22:38:27 Scissors-Logger: {"message":"[object Object], TokenError: Bad Request","metadata":{}}
+[error] 23-07-19 22:38:27 Scissors-Logger: {"message":"GET /api/v1/user/auth/google/callback?code=4%2F0AZEOvhXtKzI2ZitBv6Bs2ywYHcd5VDtzWVglmNANJhcIsEJOLqzoFZw4nADvOlXfw_sjiw&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&authuser=0&prompt=none 500 Internal Server Error","metadata":{}}

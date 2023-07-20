@@ -7,58 +7,26 @@ class ValidateURLs {
     body: Joi.object({
       original_url: Joi.string()
         .uri()
+        .pattern(/^https?:\/\//)
         .min(10)
         .max(2000)
         .required()
-        .messages({
-          "any.required": "A valid URL is required",
-          "string.min": "URL is not long enough",
-          "string.max": "URL length should not exceed 2000 characters",
-          "string.uri": "URL should start with 'http://' or 'https://'",
-          "string.empty": "URL field cannot be empty, please enter a valid URL",
-        })
         .default("https://example.com")
         .error(
           new BadRequestError("Url should start with https:// or http://")
         ),
-      short_url: Joi.string()
-        .min(3)
-        .max(20)
-        .messages({
-          "string.min": "Custom name should have minimum length of 3",
-          "string.max": "Custom name should not exceed 20 characters",
-          "string.empty":
-            "Custom name field cannot be empty, please enter a valid custom name",
-        })
-        .default("myshorturl"),
+      short_url: Joi.string().min(3).max(20).default("myshorturl"),
       name: Joi.string()
         .min(3)
         .max(50)
         .required()
-        .trim()
-        .messages({
-          "any.required": "Please enter a title",
-          "string.min": "Title field must be more than 3 letters",
-          "string.max": "Title field must be less than 50 letters",
-          "string.empty": "Title field cannot be empty, please enter a title",
-        })
         .default("Testing my URL Shortner"),
       tag: Joi.array()
-        .items(
-          Joi.string().min(3).max(50).messages({
-            "string.min": "Tag should be more than 2 characters long",
-            "string.max": "Tag length should not exceed 50 characters",
-          })
-        )
+        .items(Joi.string().min(3).max(50))
         .default(["Shortner", "Scissors", "Finale Project"]),
       description: Joi.string()
         .min(3)
         .max(50)
-        .trim()
-        .messages({
-          "string.min": "Description field must be more than 3 letters",
-          "string.max": "Description field must be less than 50 letters",
-        })
         .default("Final Project-Building a URL Shortner"),
       makeQR: Joi.boolean().allow(true, false).default(false),
     }),
@@ -69,46 +37,25 @@ class ValidateURLs {
     body: Joi.object({}),
     query: Joi.object({}),
     params: Joi.object({
-      short_url: Joi.string()
-        .min(3)
-        .max(20)
-        .required()
-        .messages({
-          "any.required": "A valid short link is required",
-          "string.min": "Link is not long enough",
-          "string.max": "Link length has exceeded limit",
-          "string.empty":
-            "Link field cannot be empty, please enter a valid short link",
-        })
-        .default("myshorturl"),
+      short_url: Joi.string().min(3).max(20).required().default("myshorturl"),
+    }),
+  });
+  static deleteURLSchema1 = Joi.object({
+    body: Joi.object({}),
+    query: Joi.object({}),
+    params: Joi.object({
+      short_url: Joi.string().min(3).max(20).required().default("myshorturl"),
+      userID: Joi.string().min(7).max(7).required().default("432ba85"),
     }),
   });
   static getStat = Joi.object({
     body: Joi.object({}),
     query: Joi.object({
       skip: Joi.string().optional().default("1"),
-      search: Joi.string()
-        .min(3)
-        .max(20)
-        .messages({
-          "string.min": "URL should have minimum length of 3",
-          "string.max": "URL should not exceed 20 characters",
-        })
-        .allow(null)
-        .default("myshorturl"),
+      search: Joi.string().min(3).max(20).default("myshorturl"),
     }),
     params: Joi.object({
-      userID: Joi.string()
-        .min(7)
-        .max(7)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "User ID is required",
-          "string.min": "User ID must be 7 letters",
-          "string.max": "User ID must be 7 letters",
-        })
-        .default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().default("432ba85"),
     }),
   });
   static getSingleUserURLSchema1 = Joi.object({
@@ -117,17 +64,7 @@ class ValidateURLs {
       skip: Joi.string().optional().default("1"),
     }),
     params: Joi.object({
-      userID: Joi.string()
-        .min(7)
-        .max(7)
-        .required()
-        .trim()
-        .messages({
-          "any.required": "User ID is required",
-          "string.min": "User ID must be 7 letters",
-          "string.max": "User ID must be 7 letters",
-        })
-        .default("432ba85"),
+      userID: Joi.string().min(7).max(7).required().default("432ba85"),
     }),
   });
   //Validations
@@ -138,6 +75,10 @@ class ValidateURLs {
   static retrieveURL(req: Request, res: Response, next: NextFunction) {
     const retrieveURLSchema = ValidateURLs.retrieveURLSchema1;
     return ValidateURLs.validate(retrieveURLSchema)(req, res, next);
+  }
+  static deleteURL(req: Request, res: Response, next: NextFunction) {
+    const deleteURLSchema = ValidateURLs.deleteURLSchema1;
+    return ValidateURLs.validate(deleteURLSchema)(req, res, next);
   }
   static getStatData(req: Request, res: Response, next: NextFunction) {
     const getStatSchema = ValidateURLs.getStat;
@@ -153,12 +94,27 @@ class ValidateURLs {
   }
   private static validate(schema: ObjectSchema) {
     return async (req: Request, res: Response, next: NextFunction) => {
-      await schema.validateAsync({
-        body: req.body,
-        query: req.query,
-        params: req.params,
-      });
-      next();
+      try {
+        await schema.validateAsync({
+          body: req.body,
+          query: req.query,
+          params: req.params,
+        });
+        next();
+      } catch (error: any) {
+        console.log(error.details);
+        if (error.details && error.details.length > 0) {
+          const fieldName = error.details[0].context.key;
+          const errorMessage = error.details[0].message.replace(
+            /^.+\"\s/,
+            `${fieldName} `
+          );
+          throw new BadRequestError(errorMessage);
+        } else {
+          // Handle other error scenarios or rethrow the error
+          throw error;
+        }
+      }
     };
   }
 }

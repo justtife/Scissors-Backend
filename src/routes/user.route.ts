@@ -2,10 +2,11 @@ import { Router } from "express";
 import UserValidation from "../utils/validations/user.validation";
 import Auth from "../utils/auth/authenticateUser";
 import _ from "lodash";
-export const userRouter = Router();
+const userRouter = Router();
 import { UserController } from "../controllers/user.controller";
 import { ImageUploader } from "../utils/image/multer";
 const upload = new ImageUploader();
+import passport from "passport";
 userRouter.post(
   "/upload",
   upload.uploadErrorHandlerMiddleware.bind(upload),
@@ -60,3 +61,11 @@ userRouter.patch(
   UserValidation.changePassword,
   UserController.changePassword
 );
+userRouter.get(
+  "/auth/google",
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+  })
+);
+userRouter.get("/auth/google/callback", UserController.googleLogin);
+export default userRouter;

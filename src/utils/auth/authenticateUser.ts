@@ -21,7 +21,7 @@ class Auth {
       return next();
     })(req, res, next);
   }
-  static async authenticateJwt(
+  static authenticateJwt(
     req: Request,
     res: Response,
     next: NextFunction
@@ -43,6 +43,15 @@ class Auth {
         )(req, res, next);
       });
     } catch (error) {
+      return false;
+    }
+  }
+  static async checkLogIn(req:Request,res:Response,next:NextFunction) {
+    try {
+      const isAuthenticated = Auth.authenticateJwt(req, res, next);
+      return isAuthenticated;
+    } catch (error) {
+      console.error(error);
       return false;
     }
   }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import config from "../../config/config";
-import logger from "../logger/logger";
+import BadGatewayError from "../errors/badGateway";
 const location = async (ip: any) => {
   const API_URL = "https://api.ipgeolocation.io/ipgeo";
   // Define variable query parameter
@@ -36,8 +36,9 @@ const location = async (ip: any) => {
     return locationData;
   } catch (error) {
     // Handle any errors
-    logger.error(error);
-    throw error;
+    throw new BadGatewayError(
+      "The server encountered an issue while trying to fulfill the request, Please try again later or contact the administrator for assistance."
+    );
   }
 };
 export default location;
