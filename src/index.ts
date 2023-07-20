@@ -8,7 +8,7 @@ import config from "./config/config";
 //Security Middlewares
 import helmet from "helmet";
 import cors from "cors";
-import rateLimit from "express-rate-limit";
+import rateLimit, { Options } from "express-rate-limit";
 import compression from "compression";
 import { StatusCode } from "./types";
 //Session and Cookie with storage
@@ -30,12 +30,18 @@ app.set("trust proxy", true);
 app.use(cors());
 app.use(
   rateLimit({
-    windowMs: 10 * 60 * 1000,
-    max: 50,
-    handler: function (req: Request, res: Response, next: NextFunction) {
+    windowMs: 1 * 60 * 1000,
+    max: 5,
+    skipSuccessfulRequests: true,
+    handler: function (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+      options: Options
+    ) {
       errorResponse({
         res,
-        message: "Too Many Requests, please try again in ten minutes",
+        message: options.message,
         statusCode: StatusCode.TOO_MANY_REQUEST,
       });
     },
